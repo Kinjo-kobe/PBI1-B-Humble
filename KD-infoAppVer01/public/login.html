@@ -1,3 +1,57 @@
-<!-- ログインフォームのコンポーネント -->
+<!DOCTYPE html>
+<html lang="ja">
 
-<!-- 柏木君は作成中のHTMLファイルのソースをここにコピペし、このコメントを削除してください! -->
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            background-image: url('background-image.jpg');
+            /* 画像のパスを指定 */
+            background-size: cover;
+            /* 画像をカバーするように調整 */
+            background-repeat: no-repeat;
+            /* 画像の繰り返しを無効に */
+            background-position: center;
+            /* 画像を中央に配置 */
+            text-align: center;
+            /* テキストを中央に配置 */
+            height: 100vh;
+            /* 画面の高さに合わせる */
+            margin: 0;
+            /* マージンをリセット */
+            padding: 0;
+            /* パディングをリセット */
+            display: flex;
+            /* Flexboxを使用 */
+            justify-content: center;
+            /* 横方向の中央寄せ */
+            align-items: center;
+            /* 縦方向の中央寄せ */
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>プログラミング情報共有サイト</h1>
+    <button>googleで認証</button>
+    <!-- ボタンをクリックするとmoveToHome関数を呼び出す -->
+    <button onclick="moveToHome()">ログインする</button>
+
+    <script>
+        // Homeページに移動する関数
+        function moveToHome() {
+            // home.htmlへリダイレクト
+            window.location.href = "home.html";
+        }
+    </script>
+
+</body>
+
+</html>
