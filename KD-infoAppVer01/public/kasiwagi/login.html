@@ -51,9 +51,16 @@
 <body>
     <div class="container">
         <div class="title">IT分野情報共有サイト</div>
-        <button class="button">Googleで認証</button>
-        <button class="button">ログイン</button>
+        <button class="button" onclick="redirectToHome()">Googleでログイン</button>
+        <button class="button" onclick="redirectToHome()">教員としてログイン</button>
     </div>
+
+    <script>
+        function redirectToHome() {
+            window.location.href = "home.html";
+        }
+    </script>
 </body>
+
 
 </html>
