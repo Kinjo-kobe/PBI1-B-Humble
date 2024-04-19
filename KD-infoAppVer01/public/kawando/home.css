@@ -1,0 +1,41 @@
+.area {
+    width: 500px;
+    /* 要素の外側の余白を自動 */
+    margin: auto;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.tab_class {
+    width: calc(100%/5);
+    height: 50px;
+    background-color: rgb(236, 202, 202);
+    line-height: 50px;
+    font-size: 15px;
+    text-align: center;
+    display: block;
+    float: left;
+    order: -1;
+}
+
+/* ラジオボタンを非表示にする */
+input[name="tab_name"] {
+    display: none;
+}
+
+
+input:checked+.tab_class {
+    background-color: rgb(183, 132, 132);
+    color: aliceblue;
+}
+
+/* 一旦すべてのコンテンツを非表示 */
+.content_class {
+    display: none;
+    width: 100%;
+}
+
+/* 選択されたタブのコンテンツを表示 */
+input:checked+.tab_class+.content_class {
+    display: block;
+}
