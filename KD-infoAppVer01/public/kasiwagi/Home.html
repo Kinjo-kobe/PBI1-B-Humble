@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ホーム</title>
+</head>
+
+<body>
+
+    <h2>ホームページ</h2>
+
+    <div id="questions">
+        <!-- 質問内容をここに表示する -->
+    </div>
+
+    <!-- 質問ページへの遷移ボタン -->
+    <button onclick="goToShitumonPage()">質問する</button>
+
+    <script>
+        // URLから質問内容と名前を取得して表示
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+        const question = urlParams.get('question');
+
+        if (name && question) {
+            const questionsDiv = document.getElementById('questions');
+            questionsDiv.innerHTML = `
+                <p><strong>質問者:</strong> ${name}</p>
+                <p><strong>質問内容:</strong> ${question}</p>
+            `;
+        }
+
+        // 質問ページへの遷移関数
+        function goToShitumonPage() {
+            window.location.href = 'shitumon.html';
+        }
+    </script>
+
+</body>
+
+</html>
