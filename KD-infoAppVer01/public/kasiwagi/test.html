@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+
+            text-align: center;
+            /* テキストを中央に配置 */
+            height: 100vh;
+            /* 画面の高さに合わせる */
+            margin: 0;
+            /* マージンをリセット */
+            padding: 0;
+            /* パディングをリセット */
+            position: relative;
+            /* 相対位置指定 */
+        }
+
+
+        .background-image {
+            position: absolute;
+            /* 絶対位置指定 */
+            bottom: 10;
+            /* 下端に配置 */
+            right: 2;
+            /* 右端に配置 */
+
+            z-index: -1;
+            /* テキストやボタンの下に配置 */
+        }
+
+        .content {
+            display: flex;
+            /* Flexboxを使用 */
+            flex-direction: column;
+            /* 縦方向に要素を配置 */
+            align-items: center;
+            /* 中央寄せ */
+            justify-content: center;
+            /* 縦方向の中央寄せ */
+            height: 100%;
+            /* コンテンツの高さを100%に設定 */
+        }
+
+        h1 {
+            font-size: 65 px;
+            /* フォントサイズを65pxに設定 */
+            position: absolute;
+            /* 絶対位置指定 */
+            top: 35%;
+            /* 上端を中央に */
+            left: 50%;
+            /* 左端を中央に */
+            transform: translate(-50%, -50%);
+            /* 中央揃え */
+        }
+
+        .button-container {
+            margin-top: 200px;
+            /* タイトルからの距離を200pxに設定 */
+        }
+
+        button {
+            margin-top: 40px;
+            /* 上側のマージンを40pxに設定 */
+            padding: 15px 30px;
+            /* 上下左右のパディングを追加 */
+            font-size: 18px;
+            /* フォントサイズを18pxに設定 */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="content">
+        <h1>プログラミング情報共有サイト</h1>
+        <div class="button-container">
+            <button onclick="moveToHome()">学生としてgoogleで認証</button>
+            <button onclick="moveToHome()">教員としてログインする</button>
+
+            <script>
+                function moveToHome() {
+                    window.location.href = "home.html";
+                }
+            </script>
+
+</body>
+
+</html>
