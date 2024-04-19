@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .container {
+    width: 90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+  }
+  .grid-item {
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .header > h1 {
+    margin: 0;
+  }
+  .add-button {
+    background: #fff;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>Home</h1>
+    <button class="add-button">+</button>
+  </div>
+  
+  <div class="grid-item">リスト/参照</div>
+  <div class="grid-item">新規作成</div>
+  <div class="grid-item">更新/削除</div>
+  <div class="grid-item">設定</div>
+  
+  <div class="grid-item">質問 & 回答</div>
+  <div class="grid-item">ステータス表示</div>
+  <div class="grid-item">スマートフォン</div>
+  <div class="grid-item">友達/社交</div>
+  
+  <div class="grid-item">AI & ロボティクス</div>
+  <div class="grid-item">スポーツ/運動</div>
+  <div class="grid-item">マイポータル</div>
+  <div class="grid-item">Python コーディング</div>
+</div>
+
+</body>
+</html>
