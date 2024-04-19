@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+  }
+  .login-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+  }
+  h2 {
+    color: #333;
+    text-align: center;
+  }
+  .login-option {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .login-option img {
+    height: 20px;
+    margin-right: 10px;
+  }
+  .login-option span {
+    flex-grow: 1;
+  }
+  .email-password {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  .login-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <h2>ログイン</h2>
+  
+  <div class="login-option">
+    <img src="github-icon.png" alt="GitHub" />
+    <span>GitHubでログイン</span>
+  </div>
+  
+  <div class="login-option">
+    <img src="google-icon.png" alt="Google" />
+    <span>Googleでログイン</span>
+  </div>
+  
+  <div class="login-option">
+    <img src="twitter-icon.png" alt="Twitter" />
+    <span>Twitterでログイン</span>
+  </div>
+  
+  <input type="text" class="email-password" placeholder="ユーザー名またはメールアドレス">
+  <input type="password" class="email-password" placeholder="パスワード">
+  
+  <button class="login-button">ログイン</button>
+</div>
+
+</body>
+</html>
