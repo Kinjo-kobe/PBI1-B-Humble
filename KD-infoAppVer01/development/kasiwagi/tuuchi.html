@@ -6,9 +6,10 @@
     <title>通知</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            padding: 20px;
+            font-family: 'Helvetica', sans-serif;
             background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
         }
 
         .notification-list {
@@ -16,7 +17,7 @@
             margin: 20px auto;
             background-color: #ffffff;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .notification-item {
@@ -27,18 +28,25 @@
         }
 
         .user-icon {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            margin-right: 15px;
+            margin-right: 20px;
         }
 
         .notification-content {
             flex-grow: 1;
         }
 
+        .notification-content p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
         .timestamp {
-            color: #777777;
+            color: #888888;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -46,48 +54,47 @@
 <body>
     <div class="notification-list">
         <div class="notification-item">
-            <img src="https://via.placeholder.com/40" alt="User Icon" class="user-icon">
+            <img src="https://via.placeholder.com/50" alt="User Icon" class="user-icon">
             <div class="notification-content">
                 <p><strong>@username1</strong> があなたの投稿にコメントしました。</p>
                 <p class="timestamp">1分前</p>
             </div>
         </div>
         <div class="notification-item">
-            <img src="https://via.placeholder.com/40" alt="User Icon" class="user-icon">
+            <img src="https://via.placeholder.com/50" alt="User Icon" class="user-icon">
             <div class="notification-content">
                 <p><strong>@username2</strong> があなたの質問に回答しました。</p>
                 <p class="timestamp">10分前</p>
             </div>
         </div>
         <div class="notification-item">
-            <img src="https://via.placeholder.com/40" alt="User Icon" class="user-icon">
+            <img src="https://via.placeholder.com/50" alt="User Icon" class="user-icon">
             <div class="notification-content">
                 <p><strong>@username3</strong> があなたの投稿にコメントしました。</p>
                 <p class="timestamp">20分前</p>
             </div>
         </div>
         <div class="notification-item">
-            <img src="https://via.placeholder.com/40" alt="User Icon" class="user-icon">
+            <img src="https://via.placeholder.com/50" alt="User Icon" class="user-icon">
             <div class="notification-content">
                 <p><strong>@username4</strong> があなたの質問に回答しました。</p>
                 <p class="timestamp">30分前</p>
             </div>
         </div>
         <div class="notification-item">
-            <img src="https://via.placeholder.com/40" alt="User Icon" class="user-icon">
+            <img src="https://via.placeholder.com/50" alt="User Icon" class="user-icon">
             <div class="notification-content">
                 <p><strong>@username5</strong> があなたの回答にいいねしました。</p>
                 <p class="timestamp">40分前</p>
             </div>
         </div>
         <div class="notification-item">
-            <img src="https://via.placeholder.com/40" alt="User Icon" class="user-icon">
+            <img src="https://via.placeholder.com/50" alt="User Icon" class="user-icon">
             <div class="notification-content">
                 <p><strong>@username6</strong> があなたの投稿にいいねしました。</p>
                 <p class="timestamp">50分前</p>
             </div>
         </div>
-        <!-- 他の通知も同様に追加可能 -->
     </div>
 </body>
 
