@@ -1,57 +1,69 @@
+<!-- ログイン画面 -->
+<!-- 最終編集者：柏木 -->
+
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT分野情報共有サイト</title>
     <style>
         body {
-            background-image: url('background-image.jpg');
-            /* 画像のパスを指定 */
-            background-size: cover;
-            /* 画像をカバーするように調整 */
-            background-repeat: no-repeat;
-            /* 画像の繰り返しを無効に */
-            background-position: center;
-            /* 画像を中央に配置 */
-            text-align: center;
-            /* テキストを中央に配置 */
-            height: 100vh;
-            /* 画面の高さに合わせる */
             margin: 0;
-            /* マージンをリセット */
             padding: 0;
-            /* パディングをリセット */
             display: flex;
-            /* Flexboxを使用 */
             justify-content: center;
-            /* 横方向の中央寄せ */
             align-items: center;
-            /* 縦方向の中央寄せ */
+            height: 100vh;
+            background-color: #f0f0f0;
         }
 
-        button {
-            padding: 15px 30px;
-            font-size: 25px;
+        .container {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 60px;
+            /* フォントサイズを65pxに設定 */
+            position: absolute;
+            /* 絶対位置指定 */
+            top: 35%;
+            /* 上端を中央に */
+            left: 50%;
+            /* 左端を中央に */
+            transform: translate(-50%, -50%);
+            /* 中央揃え */
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
         }
     </style>
 </head>
 
 <body>
-
-    <h1>プログラミング情報共有サイト</h1>
-    <button>googleで認証</button>
-    <!-- ボタンをクリックするとmoveToHome関数を呼び出す -->
-    <button onclick="moveToHome()">ログインする</button>
+    <div class="container">
+        <div class="title">IT分野情報共有サイト</div>
+        <button class="button" onclick="redirectToHome()">Googleでログイン</button>
+        <button class="button" onclick="redirectToHome()">教員としてログイン</button>
+    </div>
 
     <script>
-        // Homeページに移動する関数
-        function moveToHome() {
-            // home.htmlへリダイレクト
+        function redirectToHome() {
             window.location.href = "home.html";
         }
     </script>
-
 </body>
+
 
 </html>
