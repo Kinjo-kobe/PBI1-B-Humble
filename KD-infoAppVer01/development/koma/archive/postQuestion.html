@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Q&A Platform</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  #newQuestionBtn { padding: 10px 20px; }
+  .modal { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+  .modal-content { background: #fff; padding: 20px; border-radius: 5px; }
+  .close { float: right; }
+  .question-form { display: flex; flex-direction: column; }
+  .question-form input, .question-form textarea, .question-form button { margin: 10px 0; }
+
+  .modal-content {
+    width: 70%;   /* モーダルの幅を画面の70%に設定 */
+    height: 70%;  /* モーダルの高さを画面の70%に設定 */
+    max-width: 600px; /* 最大幅を設定 */
+    max-height: 90vh; /* 最大高さを画面高の90%に設定 */
+    overflow-y: auto; /* 内容がオーバーフローしたらスクロールバーを表示 */
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative; /* クローズボタンのための設定 */
+  }
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+  }
+
+  .question-form textarea {
+    height: 41vh; /* モーダルウィンドウ内での高さを適切に設定 */
+    resize: vertical; /* ユーザーが垂直方向にリサイズ可能に */
+    padding: 10px; /* 内部の余白 */
+    margin-bottom: 0px; /* 下部の余白 */
+  }
+
+  /* その他のスタイルが影響を受けないように、フォーム内の他のinput要素に対してもスタイルを調整することができます */
+  .question-form input, .question-form button {
+    padding: 10px;
+    margin-bottom: 10px; /* ボタンの余白も調整 */
+  }
+
+</style>
+</head>
+<body>
+
+<button id="newQuestionBtn">新規作成</button>
+
+<div id="questionsList">
+  <!-- 質問一覧がここに表示されます -->
+</div>
+
+<div id="questionModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="questionForm" class="question-form">
+      <input type="text" id="questionTitle" placeholder="質問のタイトル" required />
+      <textarea id="questionBody" rows="4" placeholder="質問の内容" required></textarea>
+      <input type="text" id="questionTags" placeholder="タグ（カンマ区切り）" />
+      <button type="submit">投稿</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // モーダルを操作する関数
+  const modal = document.getElementById('questionModal');
+  const btn = document.getElementById('newQuestionBtn');
+  const span = document.getElementsByClassName('close')[0];
+  btn.onclick = function() {
+    modal.style.display = 'flex';
+  }
+  span.onclick = function() {
+    modal.style.display = 'none';
+  }
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  // フォームを操作する関数
+  document.getElementById('questionForm').onsubmit = function(event) {
+    event.preventDefault();
+    const title = document.getElementById('questionTitle').value;
+    const body = document.getElementById('questionBody').value;
+    const tags = document.getElementById('questionTags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+    // 質問をリストに追加する処理
+    const questionList = document.getElementById('questionsList');
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <h3>${title}</h3>
+      <p>${body}</p>
+      <p>タグ: ${tags.join(', ')}</p>
+    `;
+    questionList.appendChild(div);
+
+    // モーダルウィンドウを閉じる
+    modal.style.display = 'none';
+
+    // フォームの内容をクリアする
+    document.getElementById('questionTitle').value = '';
+    document.getElementById('questionBody').value = '';
+    document.getElementById('questionTags').value = '';
+  }
+</script>
+
+</body>
+</html>

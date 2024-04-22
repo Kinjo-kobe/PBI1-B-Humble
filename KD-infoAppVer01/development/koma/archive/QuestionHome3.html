@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Q&A Platform</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+  }
+  #newQuestionBtn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  .container {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .question {
+    border-bottom: 1px solid #ddd;
+    padding: 16px 0;
+  }
+  .question:not(:last-child) {
+    border-bottom: 1px solid #eee;
+  }
+  .question h3 {
+    font-size: 1rem;
+    color: #333;
+    margin: 0 0 8px 0;
+    font-weight: bold;
+  }
+  .question p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 4px;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-content {
+    width: 70%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #666;
+  }
+  .question-form {
+    display: flex;
+    flex-direction: column;
+  }
+  .question-form input, .question-form textarea, .question-form button {
+    margin: 10px 0;
+    padding: 10px;
+  }
+  .question-form textarea {
+    height: 41vh;
+    resize: vertical;
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="questionsList">
+  <!-- Existing questions are displayed here -->
+</div>
+
+<button id="newQuestionBtn">新規作成</button>
+
+<div id="questionModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="questionForm" class="question-form">
+      <input type="text" id="questionTitle" placeholder="質問のタイトル" required />
+      <textarea id="questionBody" rows="4" placeholder="質問の内容" required></textarea>
+      <input type="text" id="questionTags" placeholder="タグ（カンマ区切り）" />
+      <button type="submit">投稿</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('questionModal');
+  const btn = document.getElementById('newQuestionBtn');
+  const span = document.getElementsByClassName('close')[0];
+  btn.onclick = function() {
+    modal.style.display = 'flex';
+  };
+  span.onclick = function() {
+    modal.style.display = 'none';
+  };
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+
+  document.getElementById('questionForm').onsubmit = function(event) {
+    event.preventDefault();
+    const title = document.getElementById('questionTitle').value;
+    const body = document.getElementById('questionBody').value;
+    const tags = document.getElementById('questionTags').value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
+
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.innerHTML = `
+      <h3>${title}</h3>
+      <p>${body}</p>
+      <p>Tags: <span>${tags.join(', ')}</span></p>
+    `;
+    const questionList = document.getElementById('questionsList');
+    questionList.insertBefore(div, questionList.firstChild);
+
+    modal.style.display = 'none';
+    document.getElementById('questionTitle').value = '';
+    document.getElementById('questionBody').value = '';
+    document.getElementById('questionTags').value = '';
+  };
+</script>
+
+</body>
+</html>
