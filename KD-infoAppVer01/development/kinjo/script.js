@@ -1,5 +1,8 @@
 var activeTab = 'Question'; // デフォルトアクティブタブ
 
+// グッドボタンのクリック状態を管理するオブジェクト
+var goodButtonStates = {};
+
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -80,7 +83,7 @@ function submitForm(event) {
         container.innerHTML = ''; // プレビューコンテナをクリア
     }
 
-    // 返信ボタンと削除ボタンを追加
+    // 返信ボタンとグッドボタンを追加
     addButtonsToPopupContent(newContent);
 
     // 新しいコンテンツ要素をコンテンツに追加
@@ -107,100 +110,90 @@ function previewImage(event) {
     }
 }
 
-// ポップアップから送信された内容に返信ボタンと削除ボタンを追加する
+// ポップアップから送信された内容に返信ボタンとグッドボタンを追加する
 function addButtonsToPopupContent(contentDiv) {
-    // 返信ボタンを追加
     const replyButton = document.createElement('button');
     replyButton.textContent = '返信';
     replyButton.classList.add('reply-button');
-    replyButton.addEventListener('click', function() {
-        const replyPopup = document.createElement('div');
-        replyPopup.classList.add('reply-popup');
-
-        const closeBtn = document.createElement('span');
-        closeBtn.classList.add('close');
-        closeBtn.innerHTML = '&times;';
-        closeBtn.addEventListener('click', function() {
-            replyPopup.style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        });
-
-        const replyForm = document.createElement('form');
-        replyForm.classList.add('reply-form');
-        replyForm.onsubmit = function(event) {
-            event.preventDefault(); // フォームのデフォルト送信を防止
-            const textArea = replyForm.querySelector('.reply-textarea');
-            const text = textArea.value.trim();
-            if (text === '') {
-                alert('返信内容を入力してください。');
-                return;
-            }
-
-            const replyContentDiv = document.createElement('div');
-            replyContentDiv.classList.add('reply-content');
-            replyContentDiv.textContent = text;
-
-            const closeReplyButton = document.createElement('button');
-            closeReplyButton.textContent = '閉じる';
-            closeReplyButton.addEventListener('click', function() {
-                replyContentDiv.remove();
-            });
-            replyContentDiv.appendChild(closeReplyButton);
-
-            contentDiv.appendChild(replyContentDiv);
-            textArea.value = '';
-            replyPopup.style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        };
-
-        const replyTextarea = document.createElement('textarea');
-        replyTextarea.classList.add('reply-textarea');
-        replyTextarea.placeholder = '返信内容を入力してください...';
-
-        const submitBtn = document.createElement('input');
-        submitBtn.type = 'submit';
-        submitBtn.value = '送信';
-
-        replyForm.appendChild(replyTextarea);
-        replyForm.appendChild(submitBtn);
-
-        replyPopup.appendChild(closeBtn);
-        replyPopup.appendChild(replyForm);
-
-        document.getElementById('overlay').style.display = 'block';
-        document.body.appendChild(replyPopup); // ポップアップフォームをbody要素に追加
-        replyPopup.style.display = 'block';
-    });
+    replyButton.onclick = function() {
+        openReplyPopup(contentDiv);
+    };
     contentDiv.appendChild(replyButton);
 
-    // 削除ボタンを追加
+    const goodButton = document.createElement('button');
+    goodButton.textContent = 'グッド';
+    goodButton.classList.add('good-button');
+    goodButton.onclick = function() {
+        toggleGoodButtonState(activeTab);
+        updateGoodButtonStyle(goodButton, activeTab);
+    };
+    contentDiv.appendChild(goodButton);
+
     const deleteButton = document.createElement('button');
     deleteButton.textContent = '削除';
     deleteButton.classList.add('delete-button');
-    deleteButton.addEventListener('click', function() {
-        const contentToRemove = deleteButton.parentElement;
-        contentToRemove.remove(); // 親要素を削除
-    });
+    deleteButton.onclick = function() {
+        contentDiv.remove();
+    };
     contentDiv.appendChild(deleteButton);
 }
+// 返信ポップアップを開く
+function openReplyPopup(contentDiv) {
+    const overlay = document.getElementById('overlay');
+    const replyPopup = document.createElement('div');
+    replyPopup.classList.add('reply-popup');
+    replyPopup.style.display = 'block'; // 確実にポップアップを表示する
 
-// 検索バーに機能を追加する
-function filterResults() {
-    const searchBar = document.getElementById('searchBar');
-    const searchText = searchBar.value.trim().toLowerCase();
+    const closeBtn = document.createElement('span');
+    closeBtn.textContent = '閉じる';
+    closeBtn.onclick = function() {
+        replyPopup.style.display = 'none';
+        overlay.style.display = 'none';
+    };
 
-    const tabContent = document.getElementById(activeTab);
-    const contentItems = tabContent.getElementsByClassName('content-item');
+    const replyForm = document.createElement('form');
+    replyForm.onsubmit = function(event) {
+        event.preventDefault();
+        submitReplyForm(event, contentDiv, replyForm.querySelector('textarea').value);
+        replyPopup.style.display = 'none';
+        overlay.style.display = 'none';
+    };
 
-    for (let item of contentItems) {
-        const textElement = item.querySelector('p');
-        if (textElement) {
-            const text = textElement.textContent.toLowerCase();
-            if (text.includes(searchText)) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        }
+    const textarea = document.createElement('textarea');
+    replyForm.appendChild(textarea);
+
+    const submitBtn = document.createElement('input');
+    submitBtn.type = 'submit';
+    submitBtn.value = '送信';
+    replyForm.appendChild(submitBtn);
+
+    replyPopup.appendChild(closeBtn);
+    replyPopup.appendChild(replyForm);
+    overlay.appendChild(replyPopup); // overlay内にポップアップを追加
+
+    overlay.style.display = 'block'; // overlayを表示する
+}
+
+// 返信フォームを送信
+function submitReplyForm(event, contentDiv, text) {
+    const replyContentDiv = document.createElement('div');
+    replyContentDiv.textContent = text;
+    contentDiv.appendChild(replyContentDiv);
+}
+
+// グッドボタンのクリック状態を切り替える関数
+function toggleGoodButtonState(tabName) {
+    if (!goodButtonStates[tabName]) {
+        goodButtonStates[tabName] = { clicked: false };
+    }
+    goodButtonStates[tabName].clicked = !goodButtonStates[tabName].clicked;
+}
+
+// グッドボタンのスタイルを更新する関数
+function updateGoodButtonStyle(goodButton, tabName) {
+    if (goodButtonStates[tabName] && goodButtonStates[tabName].clicked) {
+        goodButton.classList.add('good-button-clicked');
+    } else {
+        goodButton.classList.remove('good-button-clicked');
     }
 }
