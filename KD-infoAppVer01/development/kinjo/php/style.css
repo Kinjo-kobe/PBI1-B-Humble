@@ -1,0 +1,49 @@
+/* ボタンの共通スタイル */
+.button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ホームに戻るボタン */
+#homeButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+/* 返信ボタン */
+#replyButton {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+/* 返信フォームのスタイル */
+#replyForm {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* オーバーレイ */
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 900;
+}
