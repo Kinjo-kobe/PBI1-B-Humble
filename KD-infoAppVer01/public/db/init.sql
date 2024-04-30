@@ -8,8 +8,8 @@ create database prosite character set utf8 collate utf8_general_ci;
 grant all privileges on prosite.* to kobe@localhost identified by 'denshi';
 # データベース「prosite」を使用
 use prosite;
-# テーブル「user」を作成
-create table user(
+# テーブル「users」を作成
+create table users(
     user_id int auto_increment primary key ,
     user_name varchar(255) not null,
     email_address varchar(255) not null,
@@ -17,42 +17,58 @@ create table user(
     profile_title varchar(50) ,
     profile_text varchar(1000)
 );
-# テーブル「question」を作成
-create table question(
+# テーブル「questions」を作成
+create table questions(
     question_id int auto_increment primary key,
     user_id int,
     question_title varchar(50) not null,
     question_text varchar(1000) not null,
     question_time timestamp default current_timestamp,
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
+    -- 外部キー制約
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
+    -- 参照先をupdate/deleteした際はエラーを返す
+    ON DELETE RESTRICT ON UPDATE RESTRICT
 );
-# テーブル「post」を作成
-create table post(
+# テーブル「posts」を作成
+create table posts(
     post_id int auto_increment primary key,
     user_id int,
     post_title varchar(50) not null,
     post_text varchar(1000) not null,
     post_time timestamp default current_timestamp,
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
+    -- 外部キー制約
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
+    -- 参照先をupdate/deleteした際はエラーを返す
+    ON DELETE RESTRICT ON UPDATE RESTRICT
 );
-# テーブル「reply」を作成
-create table reply(
+# テーブル「replies」を作成
+create table replies(
     reply_id int auto_increment primary key,
     user_id int,
     question_id int,
     post_id int,
     reply_text varchar(1000) not null,
     reply_time timestamp default current_timestamp,
-    FOREIGN KEY (user_id) REFERENCES user(user_id),
-    FOREIGN KEY (question_id) REFERENCES question(question_id),
-    FOREIGN KEY (post_id) REFERENCES post(post_id)
+    -- 外部キー制約 user_id
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
+    -- 参照先をupdate/deleteした際はエラーを返す
+    ON DELETE RESTRICT ON UPDATE RESTRICT,
+    -- 外部キー制約 question_id
+    FOREIGN KEY (question_id) REFERENCES questions (question_id)
+    -- 参照先をupdate/deleteした際はエラーを返す
+    ON DELETE RESTRICT ON UPDATE RESTRICT,
+    -- 外部キー制約 post_id
+    FOREIGN KEY (post_id) REFERENCES posts (post_id)
+    -- 参照先をupdate/deleteした際はエラーを返す
+    ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 # ユーザーテーブルに仮のデータを追加
-insert into user(user_name, email_address, user_pass, profile_title, profile_text) values('kobe taro', 'kobetaro@st.kobedenshi.ac.jp', 'kobetaro0123', 'Hello', 'I am kobe taro');
+insert into users(user_name, email_address, user_pass, profile_title, profile_text) values('kobe taro', 'kobetaro@st.kobedenshi.ac.jp', 'kobetaro0123', 'Hello', 'I am kobe taro');
 # 質問テーブルに仮のデータを追加
-insert into question(question_title, question_text) values('How are you?', 'How are you doing?');
+insert into questions(question_title, question_text) values('How are you?', 'How are you doing?');
 # 投稿テーブルに仮のデータを追加
-insert into post(post_title, post_text) values('I am fine', 'I am fine, thank you');
-
+insert into posts(post_title, post_text) values('I am fine', 'I am fine, thank you');
+# 返信テーブルに仮のデータを追加
+insert into replies(reply_text) values('I am fine too');
 
