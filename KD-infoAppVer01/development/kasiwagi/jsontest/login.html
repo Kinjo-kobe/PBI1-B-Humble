@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="CSS/Login.css">
+</head>
+
+<body>
+    <h1>Login Page</h1>
+
+    <button id="loginButton">Login</button>
+    <button id="registerButton">Register</button>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <h2>Register</h2>
+            <label for="registerName">Name:</label><br>
+            <input type="text" id="registerName" name="registerName"><br>
+            <label for="registerEmail">Email:</label><br>
+            <input type="email" id="registerEmail" name="registerEmail"><br>
+            <label for="registerPassword">Password:</label><br>
+            <input type="password" id="registerPassword" name="registerPassword"><br><br>
+            <button id="registerConfirm">Register</button>
+        </div>
+    </div>
+
+    <script src="JS/Login.js"></script>
+</body>
+
+</html>

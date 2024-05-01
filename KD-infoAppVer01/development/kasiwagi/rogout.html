@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログアウト</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .logout-box {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 60px;
+            /* パディングを増やして全体を大きくする */
+            text-align: center;
+            max-width: 600px;
+            /* コンテナの最大幅を変更 */
+            width: 90%;
+            /* コンテナの幅を90%に変更 */
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 28px;
+            /* タイトルのフォントサイズを大きくする */
+            margin-bottom: 30px;
+            /* タイトルの下のマージンを増やす */
+        }
+
+        .logout-btn {
+            padding: 16px 32px;
+            /* ボタンのパディングを増やす */
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 20px;
+            /* ボタンのフォントサイズを大きくする */
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logout-box">
+        <h2>ログアウトしますか？</h2>
+        <button class="logout-btn" onclick="logout()">ログアウト</button>
+    </div>
+
+    <script>
+        function logout() {
+            // ログアウト完了のポップアップ表示
+            alert("ログアウト完了しました");
+            // ログイン画面にリダイレクト
+            window.location.href = "login.html"; // ログイン画面のURLに変更
+        }
+    </script>
+</body>
+
+</html>
