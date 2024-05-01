@@ -13,12 +13,12 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
     activeTab = tabName; // 現在アクティブなタブを更新
-    
+
     // プロフィールタブの場合はポップアップボタンを非表示にする
     document.getElementById('openPopup').style.display = activeTab === 'Profile' ? 'none' : 'block';
 }
 
-document.getElementById('openPopup').onclick = function() {
+document.getElementById('openPopup').onclick = function () {
     var header = '';
     var placeholderText = '';
     if (activeTab === 'Question') {
@@ -37,11 +37,11 @@ document.getElementById('openPopup').onclick = function() {
     document.getElementById('overlay').style.display = 'block';
 };
 
-document.querySelector('.close').onclick = function() {
+document.querySelector('.close').onclick = function () {
     hidePopup();
 };
 
-document.getElementById('overlay').onclick = function(event) {
+document.getElementById('overlay').onclick = function (event) {
     if (event.target === document.getElementById('overlay')) {
         hidePopup();
     }
@@ -93,7 +93,7 @@ function previewImage(event) {
     const [file] = event.target.files;
     if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             const img = document.createElement('img');
             img.src = e.target.result;
             img.style.maxWidth = '100%'; // プレビュー画像の最大幅を設定
@@ -113,21 +113,21 @@ function addButtonsToPopupContent(contentDiv) {
     const replyButton = document.createElement('button');
     replyButton.textContent = '返信';
     replyButton.classList.add('reply-button');
-    replyButton.addEventListener('click', function() {
+    replyButton.addEventListener('click', function () {
         const replyPopup = document.createElement('div');
         replyPopup.classList.add('reply-popup');
 
         const closeBtn = document.createElement('span');
         closeBtn.classList.add('close');
         closeBtn.innerHTML = '&times;';
-        closeBtn.addEventListener('click', function() {
+        closeBtn.addEventListener('click', function () {
             replyPopup.style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         });
 
         const replyForm = document.createElement('form');
         replyForm.classList.add('reply-form');
-        replyForm.onsubmit = function(event) {
+        replyForm.onsubmit = function (event) {
             event.preventDefault(); // フォームのデフォルト送信を防止
             const textArea = replyForm.querySelector('.reply-textarea');
             const text = textArea.value.trim();
@@ -142,7 +142,7 @@ function addButtonsToPopupContent(contentDiv) {
 
             const closeReplyButton = document.createElement('button');
             closeReplyButton.textContent = '閉じる';
-            closeReplyButton.addEventListener('click', function() {
+            closeReplyButton.addEventListener('click', function () {
                 replyContentDiv.remove();
             });
             replyContentDiv.appendChild(closeReplyButton);
@@ -177,7 +177,7 @@ function addButtonsToPopupContent(contentDiv) {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = '削除';
     deleteButton.classList.add('delete-button');
-    deleteButton.addEventListener('click', function() {
+    deleteButton.addEventListener('click', function () {
         const contentToRemove = deleteButton.parentElement;
         contentToRemove.remove(); // 親要素を削除
     });
@@ -204,3 +204,12 @@ function filterResults() {
         }
     }
 }
+
+// ログアウト機能
+function logout() {
+    // ログアウトの処理をここに記述する
+    // 例: ローカルストレージからユーザーデータを削除し、ログインページにリダイレクトする
+    localStorage.removeItem('userData'); // 仮の例。実際の処理はシステムに応じて変わります。
+    window.location.href = 'pages/Login.html'; // ログインページにリダイレクトする
+}
+

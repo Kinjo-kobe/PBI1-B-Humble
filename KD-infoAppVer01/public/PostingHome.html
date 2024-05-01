@@ -3,55 +3,59 @@
 
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-<meta charset="UTF-8">
-<title>Tab with Popup and Search</title>
-<link rel="stylesheet" href="..\static\css\PostingHome.css">
+  <meta charset="UTF-8">
+  <title>Tab with Popup and Search</title>
+  <link rel="stylesheet" href="static\css\PostingHome.css">
 </head>
+
 <body>
-<!-- タブと検索バー -->
-<div class="tab-search-wrapper">
-  <div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'Question')">質問</button>
-    <button class="tablinks" onclick="openTab(event, 'Post')">投稿</button>
-    <button class="tablinks" onclick="openTab(event, 'Profile')">プロフィール</button>
+  <!-- タブと検索バー -->
+  <div class="tab-search-wrapper">
+    <div class="tab">
+      <button class="tablinks" onclick="openTab(event, 'Question')">質問</button>
+      <button class="tablinks" onclick="openTab(event, 'Post')">投稿</button>
+      <button class="tablinks" onclick="openTab(event, 'Profile')">プロフィール</button>
+      <button class="logout-btn" onclick="logout()">ログアウト</button>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="searchBar" oninput="filterResults()" placeholder="検索...">
+
+    </div>
   </div>
-  <div class="search-bar">
-    <input type="text" id="searchBar" oninput="filterResults()" placeholder="検索...">
 
+  <div id="Question" class="tabcontent">
   </div>
-</div>
 
-<div id="Question" class="tabcontent">
-</div>
+  <div id="Post" class="tabcontent">
+  </div>
 
-<div id="Post" class="tabcontent">
-</div>
+  <div id="Profile" class="tabcontent">
+    <h3>プロフィール</h3>
+    <p></p>
+  </div>
 
-<div id="Profile" class="tabcontent">
-  <h3>プロフィール</h3>
-  <p></p>
-</div>
+  <!-- ポップアップ -->
+  <button id="openPopup" class="open-popup-btn">⊕</button>
 
-<!-- ポップアップ -->
-<button id="openPopup" class="open-popup-btn">⊕</button>
-
-<div id="popupForm" class="popup">
+  <div id="popupForm" class="popup">
     <div class="popup-content">
-        <span class="close">&times;</span>
-        <div id="popupFormHeader"></div>
-        <form onsubmit="submitForm(event)">
-          <textarea id="popupFormTextarea" placeholder="内容を入力してください"></textarea><br>
-          <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
-          <div id="imagePreviewContainer"></div><br>
-          <input type="submit" value="送信">
+      <span class="close">&times;</span>
+      <div id="popupFormHeader"></div>
+      <form onsubmit="submitForm(event)">
+        <textarea id="popupFormTextarea" placeholder="内容を入力してください"></textarea><br>
+        <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
+        <div id="imagePreviewContainer"></div><br>
+        <input type="submit" value="送信">
       </form>
 
     </div>
-</div>
+  </div>
 
-<div id="overlay" class="overlay"></div>
+  <div id="overlay" class="overlay"></div>
 
-<script src="..\static\js\PostingHome.js"></script>
+  <script src="static\js\PostingHome.js"></script>
 </body>
+
 </html>

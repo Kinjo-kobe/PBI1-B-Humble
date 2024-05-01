@@ -1,315 +1,353 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Q&A Platform</title>
-<style>
-body {
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f2f2f2;
-}
-#newQuestionBtn {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  padding: 10px 20px;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-.container {
-  max-width: 600px;
-  margin: 40px auto;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.question {
-  border-bottom: 1px solid #ddd;
-  padding: 16px 0;
-  position: relative;
-}
-.question:not(:last-child) {
-  border-bottom: 1px solid #eee;
-}
-.question h3 {
-  font-size: 1rem;
-  color: #333;
-  margin: 0 0 8px 0;
-  font-weight: bold;
-}
-.question p {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 4px;
-}
-.modal {
-  display: none;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  align-items: center;
-  justify-content: center;
-}
-.modal-content {
-  width: 70%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-.close {
-  position:absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 1.5rem;
-  color: #666;
-}
-.question-form {
-  display: flex;
-  flex-direction: column;
-}
-.question-form input, .question-form textarea, .question-form button {
-  margin: 10px 0;
-  padding: 10px;
-}
-.question-form textarea {
-  height: 41vh;
-  resize: vertical;
-}
-.question-meta, .question-tags {
-  color: #999;
-  font-size: 0.85rem;
-  list-style: none;
-  padding-left: 0;
-}
-.question-tags li {
-  display: inline;
-  margin-right: 5px;
-}
-.reply-form textarea {
-  width: 100%;
-  margin-top: 8px;
-}
-.replies, .sub-replies {
-  margin-top: 10px;
-}
-.sub-reply-form {
-  display: none;
-}
-.reply, .sub-reply {
-  margin-bottom: 10px;
-  padding-left: 20px;
-  border-left: 1px solid #ddd;
-}
-.delete-btn {
-  cursor: pointer;
-  color: white;
-  background-color: red;
-  border: none;
-  position:absolute;
-  top: 10px;
-  right: 10px;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-.delete-reply-btn {
-  cursor: pointer;
-  color: white;
-  background-color: red;
-  border: none;
-  position: absolute;
-  left: 0;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-}
-</style>
-</head>
-<body>
-
-<div class="container" id="questionsList">
-  <!-- Example of a hardcoded question -->
-  <div class="question">
-    <div class="question-title">Example Question Title</div>
-    <div class="question-meta">@username - Q&A - 回答数0 - <span class="question-date">2024年4月19日</span></div>
-    <ul class="question-tags">
-      <li>Tag1</li>
-      <li>Tag2</li>
-    </ul>
-    <button class="reply-btn">返信する</button>
-    <div class="reply-form" style="display:none;">
-      <textarea placeholder="返信を入力"></textarea>
-      <button type="button" class="send-reply-btn">返信を送信</button>
-    </div>
-    <div class="replies"></div>
-    <button class="delete-btn" title="質問を削除">&#10006;</button>
-  </div>
-
-  <div class="question">
-    <div class="question-title">WordPressをウェブページ制作会社が採用する理由</div>
-    <div class="question-meta">@Yut-Ishih - 意見交換 - 回答件数2 - <span class="question-date">2024年4月19日</span></div>
-    <ul class="question-tags">
-      <li>HTML</li>
-      <li>WordPress</li>
-      <li>Web</li>
-    </ul>
-    <button class="reply-btn">返信する</button>
-    <div class="reply-form" style="display:none;">
-      <textarea placeholder="返信を入力"></textarea>
-      <button type="button" class="send-reply-btn">返信を送信</button>
-    </div>
-    <div class="replies"></div>
-    <button class="delete-btn" title="質問を削除">&#10006;</button>
-  </div>
-
-  <div class="question">
-    <div class="question-title">python jupter ValueError: cannot set a row with mismatched columns</div>
-    <div class="question-meta">@Tiger140304 - Q&A - 回答件数1 - <span class="question-date">2024年4月19日</span></div>
-    <ul class="question-tags">
-      <li>Python</li>
-      <li>error</li>
-      <li>Jupyter</li>
-    </ul>
-    <button class="reply-btn">返信する</button>
-    <div class="reply-form" style="display:none;">
-      <textarea placeholder="返信を入力"></textarea>
-      <button type="button" class="send-reply-btn">返信を送信</button>
-    </div>
-    <div class="replies"></div>
-    <button class="delete-btn" title="質問を削除">&#10006;</button>
-  </div>
-
-  <div class="question">
-    <div class="question-title">Arduino「IRremote.hpp」ライブラリを使用してラジコンを動かしたい</div>
-    <div class="question-meta">@yoshi_arduino - Q&A - 回答件数2 - <span class="question-date">2024年4月19日</span></div>
-    <ul class="question-tags">
-      <li>Arduino</li>
-      <li>初心者</li>
-    </ul>
-    <button class="reply-btn">返信する</button>
-    <div class="reply-form" style="display:none;">
-      <textarea placeholder="返信を入力"></textarea>
-      <button type="button" class="send-reply-btn">返信を送信</button>
-    </div>
-    <div class="replies"></div>
-    <button class="delete-btn" title="質問を削除">&#10006;</button>
-  </div>
-
-  <div class="question">
-    <div class="question-title">mglearn.plots.plot_kmeans_faces()関数で真っ黒の画像しか表示されない</div>
-    <div class="question-meta">@sharp-shinig-iland - Q&A - 回答件数0 - <span class="question-date">2024年4月19日</span></div>
-    <ul class="question-tags">
-      <li>Python</li>
-      <li>機械学習</li>
-      <li>scikit-learn</li>
-      <li>K-means</li>
-      <li>mglearn</li>
-    </ul>
-    <button class="reply-btn">返信する</button>
-    <div class="reply-form" style="display:none;">
-      <textarea placeholder="返信を入力"></textarea>
-      <button type="button" class="send-reply-btn">返信を送信</button>
-    </div>
-    <div class="replies"></div>
-    <button class="delete-btn" title="質問を削除">&#10006;</button>
-  </div>
-
-  <div class="question">
-    <div class="question-title">Python SeleniumでWebページをスクロールしたい。</div>
-    <div class="question-meta">@yuni_ - Q&A - 回答件数1 - <span class="question-date">2024年4月19日</span></div>
-    <ul class="question-tags">
-      <li>Python</li>
-      <li>Selenium</li>
-    </ul>
-    <button class="reply-btn">返信する</button>
-    <div class="reply-form" style="display:none;">
-      <textarea placeholder="返信を入力"></textarea>
-      <button type="button" class="send-reply-btn">返信を送信</button>
-    </div>
-    <div class="replies"></div>
-    <button class="delete-btn" title="質問を削除">&#10006;</button>
-  </div>
-
-  <div class="question">
-    <div class="question-title">LDAP検索が著しく遅くなる</div>
-    <div class="question-meta">@TEISHOTOKU-P(低所得 -P) - Q&A - 回答件数0 -<span class="question-date">2024年4月19日</span></div>
-    <ul class="question-tags">
-      <li>ActiveDirectory</li>
-    </ul>
-    <button class="reply-btn">返信する</button>
-    <div class="reply-form" style="display:none;">
-      <textarea placeholder="返信を入力"></textarea>
-      <button type="button" class="send-reply-btn">返信を送信</button>
-    </div>
-    <div class="replies"></div>
-    <button class="delete-btn" title="質問を削除">&#10006;</button>
-  </div>
-  <!-- More hardcoded questions can be added here in a similar format -->
-
-<button id="newQuestionBtn">新規作成</button>
-
-<div id="questionModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <form id="questionForm" class="question-form">
-      <input type="text" id="questionTitle" placeholder="質問のタイトル" required />
-      <textarea id="questionBody" rows="4" placeholder="質問の内容" required></textarea>
-      <input type="text" id="questionTags" placeholder="タグ（カンマ区切り）" />
-      <button type="submit">投稿</button>
-    </form>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const modal = document.getElementById('questionModal');
-  const btn = document.getElementById('newQuestionBtn');
-  const span = document.getElementsByClassName('close')[0];
-
-  btn.onclick = function() {
-    modal.style.display = 'flex';
-  };
-  span.onclick = function() {
-    modal.style.display = 'none';
-  };
-  window.onclick = function(event) {
-    if (event.target === modal) {
-      modal.style.display = 'none';
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q&A Platform</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
     }
-  };
 
-  document.getElementById('questionForm').onsubmit = function(event) {
-    event.preventDefault();
-    const title = document.getElementById('questionTitle').value;
-    const body = document.getElementById('questionBody').value;
-    const tags = document.getElementById('questionTags').value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
+    #newQuestionBtn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
 
-    const div = document.createElement('div');
-    div.className = 'question';
-    div.innerHTML = `
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .question {
+      border-bottom: 1px solid #ddd;
+      padding: 16px 0;
+      position: relative;
+    }
+
+    .question:not(:last-child) {
+      border-bottom: 1px solid #eee;
+    }
+
+    .question h3 {
+      font-size: 1rem;
+      color: #333;
+      margin: 0 0 8px 0;
+      font-weight: bold;
+    }
+
+    .question p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      width: 70%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: #666;
+    }
+
+    .question-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .question-form input,
+    .question-form textarea,
+    .question-form button {
+      margin: 10px 0;
+      padding: 10px;
+    }
+
+    .question-form textarea {
+      height: 41vh;
+      resize: vertical;
+    }
+
+    .question-meta,
+    .question-tags {
+      color: #999;
+      font-size: 0.85rem;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .question-tags li {
+      display: inline;
+      margin-right: 5px;
+    }
+
+    .reply-form textarea {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .replies,
+    .sub-replies {
+      margin-top: 10px;
+    }
+
+    .sub-reply-form {
+      display: none;
+    }
+
+    .reply,
+    .sub-reply {
+      margin-bottom: 10px;
+      padding-left: 20px;
+      border-left: 1px solid #ddd;
+    }
+
+    .delete-btn {
+      cursor: pointer;
+      color: white;
+      background-color: red;
+      border: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .delete-reply-btn {
+      cursor: pointer;
+      color: white;
+      background-color: red;
+      border: none;
+      position: absolute;
+      left: 0;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ログアウトボタン表示 -->
+  <button class="logout-btn" onclick="logout()">ログアウト</button>
+
+  <div class="container" id="questionsList">
+    <!-- Example of a hardcoded question -->
+    <div class="question">
+      <div class="question-title">Example Question Title</div>
+      <div class="question-meta">@username - Q&A - 回答数0 - <span class="question-date">2024年4月19日</span></div>
+      <ul class="question-tags">
+        <li>Tag1</li>
+        <li>Tag2</li>
+      </ul>
+      <button class="reply-btn">返信する</button>
+      <div class="reply-form" style="display:none;">
+        <textarea placeholder="返信を入力"></textarea>
+        <button type="button" class="send-reply-btn">返信を送信</button>
+      </div>
+      <div class="replies"></div>
+      <button class="delete-btn" title="質問を削除">&#10006;</button>
+    </div>
+
+    <div class="question">
+      <div class="question-title">WordPressをウェブページ制作会社が採用する理由</div>
+      <div class="question-meta">@Yut-Ishih - 意見交換 - 回答件数2 - <span class="question-date">2024年4月19日</span></div>
+      <ul class="question-tags">
+        <li>HTML</li>
+        <li>WordPress</li>
+        <li>Web</li>
+      </ul>
+      <button class="reply-btn">返信する</button>
+      <div class="reply-form" style="display:none;">
+        <textarea placeholder="返信を入力"></textarea>
+        <button type="button" class="send-reply-btn">返信を送信</button>
+      </div>
+      <div class="replies"></div>
+      <button class="delete-btn" title="質問を削除">&#10006;</button>
+    </div>
+
+    <div class="question">
+      <div class="question-title">python jupter ValueError: cannot set a row with mismatched columns</div>
+      <div class="question-meta">@Tiger140304 - Q&A - 回答件数1 - <span class="question-date">2024年4月19日</span></div>
+      <ul class="question-tags">
+        <li>Python</li>
+        <li>error</li>
+        <li>Jupyter</li>
+      </ul>
+      <button class="reply-btn">返信する</button>
+      <div class="reply-form" style="display:none;">
+        <textarea placeholder="返信を入力"></textarea>
+        <button type="button" class="send-reply-btn">返信を送信</button>
+      </div>
+      <div class="replies"></div>
+      <button class="delete-btn" title="質問を削除">&#10006;</button>
+    </div>
+
+    <div class="question">
+      <div class="question-title">Arduino「IRremote.hpp」ライブラリを使用してラジコンを動かしたい</div>
+      <div class="question-meta">@yoshi_arduino - Q&A - 回答件数2 - <span class="question-date">2024年4月19日</span></div>
+      <ul class="question-tags">
+        <li>Arduino</li>
+        <li>初心者</li>
+      </ul>
+      <button class="reply-btn">返信する</button>
+      <div class="reply-form" style="display:none;">
+        <textarea placeholder="返信を入力"></textarea>
+        <button type="button" class="send-reply-btn">返信を送信</button>
+      </div>
+      <div class="replies"></div>
+      <button class="delete-btn" title="質問を削除">&#10006;</button>
+    </div>
+
+    <div class="question">
+      <div class="question-title">mglearn.plots.plot_kmeans_faces()関数で真っ黒の画像しか表示されない</div>
+      <div class="question-meta">@sharp-shinig-iland - Q&A - 回答件数0 - <span class="question-date">2024年4月19日</span></div>
+      <ul class="question-tags">
+        <li>Python</li>
+        <li>機械学習</li>
+        <li>scikit-learn</li>
+        <li>K-means</li>
+        <li>mglearn</li>
+      </ul>
+      <button class="reply-btn">返信する</button>
+      <div class="reply-form" style="display:none;">
+        <textarea placeholder="返信を入力"></textarea>
+        <button type="button" class="send-reply-btn">返信を送信</button>
+      </div>
+      <div class="replies"></div>
+      <button class="delete-btn" title="質問を削除">&#10006;</button>
+    </div>
+
+    <div class="question">
+      <div class="question-title">Python SeleniumでWebページをスクロールしたい。</div>
+      <div class="question-meta">@yuni_ - Q&A - 回答件数1 - <span class="question-date">2024年4月19日</span></div>
+      <ul class="question-tags">
+        <li>Python</li>
+        <li>Selenium</li>
+      </ul>
+      <button class="reply-btn">返信する</button>
+      <div class="reply-form" style="display:none;">
+        <textarea placeholder="返信を入力"></textarea>
+        <button type="button" class="send-reply-btn">返信を送信</button>
+      </div>
+      <div class="replies"></div>
+      <button class="delete-btn" title="質問を削除">&#10006;</button>
+    </div>
+
+    <div class="question">
+      <div class="question-title">LDAP検索が著しく遅くなる</div>
+      <div class="question-meta">@TEISHOTOKU-P(低所得 -P) - Q&A - 回答件数0 -<span class="question-date">2024年4月19日</span>
+      </div>
+      <ul class="question-tags">
+        <li>ActiveDirectory</li>
+      </ul>
+      <button class="reply-btn">返信する</button>
+      <div class="reply-form" style="display:none;">
+        <textarea placeholder="返信を入力"></textarea>
+        <button type="button" class="send-reply-btn">返信を送信</button>
+      </div>
+      <div class="replies"></div>
+      <button class="delete-btn" title="質問を削除">&#10006;</button>
+    </div>
+    <!-- More hardcoded questions can be added here in a similar format -->
+
+    <button id="newQuestionBtn">新規作成</button>
+
+    <div id="questionModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="questionForm" class="question-form">
+          <input type="text" id="questionTitle" placeholder="質問のタイトル" required />
+          <textarea id="questionBody" rows="4" placeholder="質問の内容" required></textarea>
+          <input type="text" id="questionTags" placeholder="タグ（カンマ区切り）" />
+          <button type="submit">投稿</button>
+        </form>
+      </div>
+
+      <script>
+        // ログアウト機能
+        function logout() {
+          // ログアウトの処理をここに記述する
+          // 例: ローカルストレージからユーザーデータを削除し、ログインページにリダイレクトする
+          localStorage.removeItem('userData'); // 仮の例。実際の処理はシステムに応じて変わります。
+          window.location.href = 'pages/Login.html'; // ログインページにリダイレクトする
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          const modal = document.getElementById('questionModal');
+          const btn = document.getElementById('newQuestionBtn');
+          const span = document.getElementsByClassName('close')[0];
+
+          btn.onclick = function () {
+            modal.style.display = 'flex';
+          };
+          span.onclick = function () {
+            modal.style.display = 'none';
+          };
+          window.onclick = function (event) {
+            if (event.target === modal) {
+              modal.style.display = 'none';
+            }
+          };
+
+          document.getElementById('questionForm').onsubmit = function (event) {
+            event.preventDefault();
+            const title = document.getElementById('questionTitle').value;
+            const body = document.getElementById('questionBody').value;
+            const tags = document.getElementById('questionTags').value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
+
+            const div = document.createElement('div');
+            div.className = 'question';
+            div.innerHTML = `
       <div class="question-title">${title}</div>
       <div class="question-meta">@user - Q&A - 回答数0 - <span class="question-date">2024年4月19日</span></div>
       <ul class="question-tags">
@@ -323,25 +361,25 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="replies"></div>
       <button class="delete-btn" title="質問を削除">&#10006;</button>
     `;
-    const questionList = document.getElementById('questionsList');
-    questionList.insertBefore(div, questionList.firstChild);
+            const questionList = document.getElementById('questionsList');
+            questionList.insertBefore(div, questionList.firstChild);
 
-    modal.style.display = 'none';
-    document.getElementById('questionTitle').value = '';
-    document.getElementById('questionBody').value = '';
-    document.getElementById('questionTags').value = '';
-  };
+            modal.style.display = 'none';
+            document.getElementById('questionTitle').value = '';
+            document.getElementById('questionBody').value = '';
+            document.getElementById('questionTags').value = '';
+          };
 
-  document.getElementById('questionsList').addEventListener('click', function(event) {
-    if (event.target.className === 'reply-btn') {
-      const replyForm = event.target.nextElementSibling;
-      replyForm.style.display = 'block';
-    } else if (event.target.className === 'send-reply-btn') {
-      const replyText = event.target.previousElementSibling.value;
-      const repliesDiv = event.target.parentElement.nextElementSibling;
-      const replyDiv = document.createElement('div');
-      replyDiv.className = 'reply';
-      replyDiv.innerHTML = `
+          document.getElementById('questionsList').addEventListener('click', function (event) {
+            if (event.target.className === 'reply-btn') {
+              const replyForm = event.target.nextElementSibling;
+              replyForm.style.display = 'block';
+            } else if (event.target.className === 'send-reply-btn') {
+              const replyText = event.target.previousElementSibling.value;
+              const repliesDiv = event.target.parentElement.nextElementSibling;
+              const replyDiv = document.createElement('div');
+              replyDiv.className = 'reply';
+              replyDiv.innerHTML = `
         <button class="delete-reply-btn" title="返信を削除">&#10006;</button>
         <p>${replyText}</p>
         <button class="sub-reply-btn">返信する</button>
@@ -351,28 +389,28 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
         <div class="sub-replies"></div>
       `;
-      repliesDiv.appendChild(replyDiv);
-      event.target.previousElementSibling.value = '';  // Clear the textarea after sending
-      event.target.parentElement.style.display = 'none';  // Hide the reply form after sending
-    } else if (event.target.className === 'sub-reply-btn') {
-      const subReplyForm = event.target.nextElementSibling;
-      subReplyForm.style.display = 'block';
-    } else if (event.target.className === 'send-sub-reply-btn') {
-      const subReplyText = event.target.previousElementSibling.value;
-      const subRepliesDiv = event.target.parentElement.nextElementSibling;
-      appendSubReply(subRepliesDiv, subReplyText);
-      event.target.previousElementSibling.value = '';  // Clear the textarea after sending
-      event.target.parentElement.style.display = 'none';  // Hide the sub-reply form after sending
-    } else if (event.target.className === 'delete-btn' || event.target.className === 'delete-reply-btn') {
-      const questionOrReply = event.target.parentElement;
-      questionOrReply.remove();  // Remove the question or reply from the list
-    }
-  });
+              repliesDiv.appendChild(replyDiv);
+              event.target.previousElementSibling.value = '';  // Clear the textarea after sending
+              event.target.parentElement.style.display = 'none';  // Hide the reply form after sending
+            } else if (event.target.className === 'sub-reply-btn') {
+              const subReplyForm = event.target.nextElementSibling;
+              subReplyForm.style.display = 'block';
+            } else if (event.target.className === 'send-sub-reply-btn') {
+              const subReplyText = event.target.previousElementSibling.value;
+              const subRepliesDiv = event.target.parentElement.nextElementSibling;
+              appendSubReply(subRepliesDiv, subReplyText);
+              event.target.previousElementSibling.value = '';  // Clear the textarea after sending
+              event.target.parentElement.style.display = 'none';  // Hide the sub-reply form after sending
+            } else if (event.target.className === 'delete-btn' || event.target.className === 'delete-reply-btn') {
+              const questionOrReply = event.target.parentElement;
+              questionOrReply.remove();  // Remove the question or reply from the list
+            }
+          });
 
-  function appendSubReply(container, text) {
-    const subReplyDiv = document.createElement('div');
-    subReplyDiv.className = 'sub-reply';
-    subReplyDiv.innerHTML = `
+          function appendSubReply(container, text) {
+            const subReplyDiv = document.createElement('div');
+            subReplyDiv.className = 'sub-reply';
+            subReplyDiv.innerHTML = `
       <button class="delete-reply-btn" title="返信の返信を削除">&#10006;</button>
       <p>${text}</p>
       <button class="sub-reply-btn">返信する</button>
@@ -382,10 +420,13 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
       <div class="sub-replies"></div>
     `;
-    container.appendChild(subReplyDiv);
-  }
-});
-</script>
+            container.appendChild(subReplyDiv);
+          }
+
+
+        });
+      </script>
 
 </body>
+
 </html>
