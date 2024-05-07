@@ -17,7 +17,30 @@
         <label for="description">作品の説明:</label><br>
         <textarea id="description" name="description" rows="5" required></textarea><br><br>
         
+        <label for="language">使用言語:</label><br>
+        <select id="language" name="language">
+            <option value="C">C</option>
+            <option value="C++">C++</option>
+            <option value="Java">Java</option>
+            <option value="Python">Python</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="HTML">HTML</option>
+            <option value="CSS">CSS</option>
+            <option value="PHP">PHP</option>
+            <option value="Ruby">Ruby</option>
+            <option value="Swift">Swift</option>
+            <option value="Kotlin">Kotlin</option>
+            <option value="Go">Go</option>
+            <option value="Rust">Rust</option>
+            <!-- 追加したい他の言語のオプションをここに追加 -->
+        </select><br><br>
+        
         <input type="submit" value="投稿">
+    </form>
+
+    <!-- 投稿一覧ボタン -->
+    <form action="index.php">
+        <input type="submit" value="投稿一覧" style="position: fixed; bottom: 20px; right: 20px;">
     </form>
 </body>
 </html>

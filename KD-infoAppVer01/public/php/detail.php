@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +18,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         .replyButton {
             position: fixed;
             bottom: 20px;
@@ -28,10 +30,12 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         .averageRating {
             color: red;
             font-weight: bold;
         }
+
         .replyForm {
             display: none;
             position: fixed;
@@ -44,12 +48,14 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
+
         .replyForm textarea {
             width: 100%;
             height: 100px;
             resize: none;
             margin-bottom: 10px;
         }
+
         .replyForm button {
             padding: 10px 20px;
             background-color: #007bff;
@@ -57,25 +63,60 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-right: 10px;
         }
+
+        .cancelButton {
+            background-color: #dc3545;
+        }
+
         .replyList {
             margin-top: 20px;
         }
+
         .replyList ul {
             list-style-type: none;
             padding: 0;
         }
+
         .replyList li {
             margin-bottom: 10px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
         .deleteButton {
             background-color: red;
         }
+
+        .code-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .code-language {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            margin-right: 5px;
+        }
+
+        .code-content {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre {
+            margin: 0;
+        }
     </style>
 </head>
+
 <body>
     <h1>投稿詳細</h1>
     <?php
@@ -107,10 +148,12 @@
         $row = $result->fetch_assoc();
         echo "<h1>" . $row["title"] . "</h1>";
         echo "<p>投稿日時: " . $row["created_at"] . "</p>";
-        echo "<p>プログラムコード:</p>";
-        echo "<pre>" . $row["code"] . "</pre>";
+        echo "<div class='code-container'>";
+        echo "<div class='code-language'>" . htmlspecialchars($row["language"]) . "</div>";
+        echo "<div class='code-content'><pre>" . htmlspecialchars($row["code"]) . "</pre></div>";
+        echo "</div>";
         echo "<p>作品の説明:</p>";
-        echo "<p>" . $row["description"] . "</p>";
+        echo "<p>" . htmlspecialchars($row["description"]) . "</p>";
 
         echo '<div>評価: ';
         for ($i = 1; $i <= 5; $i++) {
@@ -139,7 +182,7 @@
         }
         echo "</div>";
     }
-   
+
     $conn->close();
     ?>
 
@@ -150,6 +193,7 @@
     <div class="replyForm" id="replyForm">
         <textarea id="replyContent" placeholder="返信内容を入力してください"></textarea>
         <button onclick="submitReply()">返信する</button>
+        <button class="cancelButton" onclick="closeReplyForm()">キャンセル</button>
     </div>
 
     <!-- 返信ボタン -->
@@ -174,7 +218,7 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "submit_rating.php", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.onload = function () {
+                xhr.onload = function() {
                     if (this.status == 200) {
                         console.log('Rating submitted successfully');
                     }
@@ -187,13 +231,17 @@
             document.getElementById('replyForm').style.display = 'block';
         }
 
+        function closeReplyForm() {
+            document.getElementById('replyForm').style.display = 'none';
+        }
+
         function submitReply() {
             var content = document.getElementById('replyContent').value;
             if (content.trim() !== "") {
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "submit_reply.php", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.onload = function () {
+                xhr.onload = function() {
                     if (this.status == 200) {
                         console.log('Reply submitted successfully');
                         // ページをリロードして返信を表示
@@ -209,7 +257,7 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "delete_reply.php", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.onload = function () {
+                xhr.onload = function() {
                     if (this.status == 200) {
                         console.log('Reply deleted successfully');
                         // ページをリロードして返信を更新
@@ -221,4 +269,5 @@
         }
     </script>
 </body>
+
 </html>

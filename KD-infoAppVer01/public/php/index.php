@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>プロジェクトホーム</title>
     <style>
-        .deleteButton, .sortButton {
+        .post {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .post .title {
+            flex: 1;
+            margin-right: 20px;
+            font-size: 18px;
+        }
+
+        .post .title a {
+            text-decoration: none;
+            color: #1a0dab;
+        }
+
+        .post .title a:hover {
+            text-decoration: underline;
+        }
+
+        .post .info {
+            flex: 3;
+            font-size: 14px;
+        }
+
+        .deleteButton,
+        .sortButton {
             background-color: #007bff;
             color: #ffffff;
             border: none;
@@ -17,9 +45,11 @@
             border-radius: 5px;
             margin-left: 5px;
         }
+
         .deleteButton {
             background-color: #ff0000;
         }
+
         #postButton {
             position: fixed;
             bottom: 20px;
@@ -28,12 +58,29 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         .averageRating {
             color: red;
             font-weight: bold;
         }
+
+        /* ▼ のスタイル */
+        .sortButton.desc:after {
+            content: "▲";
+        }
+
+        /* ▲ のスタイル */
+        .sortButton.asc:after {
+            content: "▼";
+        }
+
+        /* 昇順時のボタン色を赤色に設定 */
+        .sortButton.asc {
+            background-color: #ff0000;
+        }
     </style>
 </head>
+
 <body>
     <?php
     session_start(); // セッションの開始
@@ -53,50 +100,55 @@
 
     <h1>投稿作品一覧</h1>
     <div style="text-align: right; padding-bottom: 10px;">
-        <a href="?change_sort=rating" class="sortButton">評価順切替</a>
-        <a href="?change_sort=date" class="sortButton">更新日切替</a>
+        <a href="?change_sort=rating" class="sortButton <?php echo ($_SESSION['sort']['field'] == 'rating' ? $_SESSION['sort']['order'] : 'desc'); ?>">評価順切替</a>
+        <a href="?change_sort=date" class="sortButton <?php echo ($_SESSION['sort']['field'] == 'date' ? $_SESSION['sort']['order'] : 'desc'); ?>">更新日切替</a>
     </div>
     <div id="projectList">
-        <ul>
-            <?php
-            $servername = "localhost";
-            $username = "username";
-            $password = "password";
-            $dbname = "projectDB";
+        <?php
+        $servername = "localhost";
+        $username = "username";
+        $password = "password";
+        $dbname = "projectDB";
 
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
 
-            $field = $_SESSION['sort']['field'];
-            $order = $_SESSION['sort']['order'];
-            $orderBy = "ORDER BY " . ($field == 'rating' ? "AVG(r.rating)" : "p.created_at") . " $order";
+        $field = $_SESSION['sort']['field'];
+        $order = $_SESSION['sort']['order'];
+        $orderBy = "ORDER BY " . ($field == 'rating' ? "AVG(r.rating)" : "p.created_at") . " $order";
 
-            $sql = "SELECT p.id, p.title, p.created_at, AVG(r.rating) AS average_rating
-                    FROM projects p
-                    LEFT JOIN ratings r ON p.id = r.project_id
-                    GROUP BY p.id, p.title, p.created_at
-                    $orderBy";
-            $result = $conn->query($sql);
+        $sql = "SELECT p.id, LEFT(p.title, 30) AS title, p.created_at, AVG(r.rating) AS average_rating
+                FROM projects p
+                LEFT JOIN ratings r ON p.id = r.project_id
+                GROUP BY p.id, p.title, p.created_at
+                $orderBy";
+        $result = $conn->query($sql);
 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<li>";
-                    echo "<a href='detail.php?id=" . $row["id"] . "'>" . $row["title"] . "</a> - " . $row["created_at"];
-                    if ($row["average_rating"] !== null) {
-                        echo " <span class='averageRating'>[評価: " . number_format($row["average_rating"], 1) . "]</span>";
-                    }
-                    echo "<button class='deleteButton' onclick='deleteProject(" . $row["id"] . ")'>削除</button>";
-                    echo "</li>";
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<div class='post'>";
+                echo "<div class='title'><a href='detail.php?id=" . $row["id"] . "'>" . $row["title"];
+                if (strlen($row["title"]) > 30) {
+                    echo "...";
                 }
-            } else {
-                echo "<p>投稿がありません</p>";
+                echo "</a></div>";
+                echo "<div class='info'>";
+                echo "投稿日時: " . $row["created_at"] . "<br>";
+                if ($row["average_rating"] !== null) {
+                    echo "評価: " . number_format($row["average_rating"], 1) . "<br>";
+                }
+                echo "<button class='deleteButton' onclick='deleteProject(" . $row["id"] . ")'>削除</button>";
+                echo "</div>";
+                echo "</div>";
             }
+        } else {
+            echo "<p>投稿がありません</p>";
+        }
 
-            $conn->close();
-            ?>
-        </ul>
+        $conn->close();
+        ?>
     </div>
 
     <a href="post_form.php" id="postButton" class="sortButton">投稿する</a>
@@ -109,4 +161,5 @@
         }
     </script>
 </body>
+
 </html>

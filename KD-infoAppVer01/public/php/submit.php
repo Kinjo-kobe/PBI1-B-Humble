@@ -1,10 +1,9 @@
 <?php
+// データベース接続
 $servername = "localhost";
 $username = "username";
 $password = "password";
 $dbname = "projectDB";
-
-// データベース接続
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // 接続エラーの確認
@@ -16,19 +15,26 @@ if ($conn->connect_error) {
 $title = $_POST['title'];
 $code = $_POST['code'];
 $description = $_POST['description'];
+$language = $_POST['language']; // 追加
 
-// SQLを使ってデータをデータベースに挿入
-$sql = "INSERT INTO projects (title, code, description) VALUES (?, ?, ?)";
+// SQL文を作成して実行
+$sql = "INSERT INTO projects (title, code, description, language) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sss", $title, $code, $description);
+$stmt->bind_param("ssss", $title, $code, $description, $language);
+$stmt->execute();
 
-if ($stmt->execute()) {
-    echo "New record created successfully";
-    header("Location: index.php"); // ホームページにリダイレクト
+// 実行結果を確認
+if ($stmt->affected_rows > 0) {
+    echo "投稿が正常に保存されました";
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "投稿の保存中にエラーが発生しました";
 }
 
+// 接続を閉じる
 $stmt->close();
 $conn->close();
+
+// index.php にリダイレクト
+header("Location: index.php");
+exit;
 ?>
