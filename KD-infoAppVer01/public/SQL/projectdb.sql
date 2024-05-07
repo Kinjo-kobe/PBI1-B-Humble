@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2024-04-30 13:19:45
+-- 生成日時: 2024-05-07 14:50:24
 -- サーバのバージョン： 10.4.28-MariaDB
 -- PHP のバージョン: 8.2.4
 
@@ -32,10 +32,23 @@ CREATE TABLE `projects` (
   `title` varchar(255) NOT NULL,
   `code` text NOT NULL,
   `description` text NOT NULL,
+  `language` varchar(50) NOT NULL,
   `image_name` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `image` mediumblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- テーブルのデータのダンプ `projects`
+--
+
+INSERT INTO `projects` (`id`, `title`, `code`, `description`, `language`, `image_name`, `created_at`, `image`) VALUES
+(58, 'うぇｆ', 'うぇふぇｗｆ', 'うぇふぇｆｗふぇ', 'C', '', '2024-05-07 04:44:44', NULL),
+(59, 'うぇｆ', 'うぇふぇｗｆ', 'うぇふぇｆｗふぇ', 'C', '', '2024-05-07 04:45:46', NULL),
+(60, 'あさｓかｓかｓかｓ', 'あｓかｓかｓかかｓかｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓ', 'あｓかｓかｓかｓかｓｃ', 'Kotlin', '', '2024-05-07 04:46:55', NULL),
+(61, 'w背えええええええええうぇｃｗｃうぇえｃうぇｃｗｃｗｃうぇｃうぇｃうぇｃｗｗｃｗせっうぇｗｃｗせｗｃｗｗｗせｗｃえええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええええ', 'うぇｃうぇｃｗｃｗ', 'ｗｃｗｃうぇｃ', 'C', '', '2024-05-07 04:55:37', NULL),
+(62, 'ｖｓｖｄｖ', 'ｓｄｖｓｄｖ', 'ｓｄｖｓｄｖｖ', 'C++', '', '2024-05-07 05:06:35', NULL),
+(63, '10回繰り返すfor文', '#include <stdio.h>\r\n\r\nint main()\r\n{\r\n    int i;\r\n\r\n    for (i = 1; i <= 10; i++)\r\n    {\r\n        printf(\"Hello!\\n\");\r\n    }\r\n}', '簡単なもの', 'C', '', '2024-05-07 05:42:27', NULL);
 
 -- --------------------------------------------------------
 
@@ -57,21 +70,8 @@ CREATE TABLE `ratings` (
 --
 
 INSERT INTO `ratings` (`id`, `project_id`, `rating`, `comment`, `created_at`, `updated_at`) VALUES
-(2, 22, 5, NULL, '2024-04-26 04:27:44', '2024-04-26 04:27:44'),
-(3, 22, 5, NULL, '2024-04-26 04:27:44', '2024-04-26 04:27:44'),
-(4, 22, 5, NULL, '2024-04-26 04:27:45', '2024-04-26 04:27:45'),
-(5, 22, 4, NULL, '2024-04-26 04:27:55', '2024-04-26 04:27:55'),
-(6, 31, 5, NULL, '2024-04-30 01:59:07', '2024-04-30 01:59:07'),
-(7, 31, 5, NULL, '2024-04-30 02:02:20', '2024-04-30 02:02:20'),
-(8, 31, 4, NULL, '2024-04-30 02:02:25', '2024-04-30 02:02:25'),
-(9, 32, 5, NULL, '2024-04-30 02:45:54', '2024-04-30 02:45:54'),
-(10, 32, 5, NULL, '2024-04-30 02:56:32', '2024-04-30 02:56:32'),
-(11, 33, 5, NULL, '2024-04-30 02:56:49', '2024-04-30 02:56:49'),
-(12, 35, 5, NULL, '2024-04-30 03:59:19', '2024-04-30 03:59:19'),
-(13, 35, 3, NULL, '2024-04-30 03:59:30', '2024-04-30 03:59:30'),
-(14, 36, 5, NULL, '2024-04-30 04:05:42', '2024-04-30 04:05:42'),
-(15, 37, 3, NULL, '2024-04-30 04:12:51', '2024-04-30 04:12:51'),
-(16, 37, 5, NULL, '2024-04-30 04:12:59', '2024-04-30 04:12:59');
+(31, 61, 5, NULL, '2024-05-07 05:18:59', '2024-05-07 05:18:59'),
+(32, 61, 3, NULL, '2024-05-07 05:23:24', '2024-05-07 05:23:24');
 
 -- --------------------------------------------------------
 
@@ -85,13 +85,6 @@ CREATE TABLE `replies` (
   `content` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- テーブルのデータのダンプ `replies`
---
-
-INSERT INTO `replies` (`id`, `project_id`, `content`, `created_at`) VALUES
-(25, 36, 'いいとおもった', '2024-04-30 04:05:54');
 
 --
 -- ダンプしたテーブルのインデックス
@@ -124,19 +117,19 @@ ALTER TABLE `replies`
 -- テーブルの AUTO_INCREMENT `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- テーブルの AUTO_INCREMENT `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- テーブルの AUTO_INCREMENT `replies`
 --
 ALTER TABLE `replies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
