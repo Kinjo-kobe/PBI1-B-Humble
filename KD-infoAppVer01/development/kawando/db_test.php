@@ -1,4 +1,4 @@
-<!-- http://localhost/PBI1-B-Humble/KD-infoAppVer01/development/kawando/rogin_test.php -->
+<!-- http://localhost/PBI1-B-Humble/KD-infoAppVer01/development/kawando/db_test.php -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,17 +26,6 @@
         $user = 'kobe'; // ユーザー名
         $password = 'denshi'; // パスワード
 
-        // // insert文を変数に代入し実行
-        // try {
-        //     $pdo = new PDO($dsn, $user, $password); // データベースに接続
-        //     $sql = 'insert into users(email_address, user_name, user_pass) values(? ,? ,?)'; // SQL文を変数に代入
-        //     $stmt = $pdo->query($sql); // SQL文を実行
-        // } catch (PDOException $e) {
-        //     echo '接続に失敗しました'; // 失敗した場合に表示
-        //     var_dump($e->getMessage()); // エラー内容を出力
-        //     exit; // プログラムを終了
-        //     die();
-        // }
 
         // select文を変数に代入し実行
         try {
