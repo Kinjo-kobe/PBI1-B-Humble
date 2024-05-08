@@ -62,6 +62,30 @@ create table replies(
     -- 参照先をupdate/deleteした際はエラーを返す
     ON DELETE RESTRICT ON UPDATE RESTRICT
 );
+# テーブル「tagcontrol」を作成
+create table tagcontrol(
+    tagcontrol_id int auto_increment primary key,
+    question_id int,
+    post_id int,
+    tag_id int,
+    -- 外部キー制約 question_id
+    FOREIGN KEY (question_id) REFERENCES questions (question_id)
+    -- 参照先をupdate/deleteした際はエラーを返す
+    ON DELETE RESTRICT ON UPDATE RESTRICT,
+    -- 外部キー制約 question_id
+    FOREIGN KEY (post_id) REFERENCES posts (post_id)
+    -- 参照先をupdate/deleteした際はエラーを返す
+    ON DELETE RESTRICT ON UPDATE RESTRICT,
+    -- 外部キー制約 question_id
+    FOREIGN KEY (tag_id) REFERENCES tag (tag_id)
+    -- 参照先をupdate/deleteした際はエラーを返す
+    ON DELETE RESTRICT ON UPDATE RESTRICT,
+);
+# テーブル「tag」を作成
+create table tag(
+    tag_id int auto_increment primary key,
+    tag_name varchar(50) not null
+);
 
 # ユーザーテーブルに仮のデータを追加
 insert into users(user_name, email_address, user_pass, profile_title, profile_text) values('kobe taro', 'kobetaro@st.kobedenshi.ac.jp', 'kobetaro0123', 'Hello', 'I am kobe taro');
@@ -71,4 +95,8 @@ insert into questions(question_title, question_text) values('How are you?', 'How
 insert into posts(post_title, post_text) values('I am fine', 'I am fine, thank you');
 # 返信テーブルに仮のデータを追加
 insert into replies(reply_text) values('I am fine too');
-
+# タグテーブルに仮のデータを追加
+insert into tag(tag_name) values('java');
+insert into tag(tag_name) values('python');
+insert into tag(tag_name) values('php');
+insert into tag(tag_name) values('c');
