@@ -11,9 +11,9 @@ use prosite;
 # テーブル「users」を作成
 create table users(
     user_id int auto_increment primary key ,
-    user_name varchar(255) not null,
-    email_address varchar(255) not null,
+    user_name varchar(255) default 'ゲスト',
     user_pass varchar(255) ,
+    email_address varchar(255),
     profile_title varchar(100) ,
     profile_text varchar(1000)
 );
@@ -56,6 +56,7 @@ create table replies(
     question_id int,
     post_id int,
     reply_text varchar(1000) not null,
+    reply_best_answer boolean default false,
     reply_time timestamp default current_timestamp,
     -- 外部キー制約 user_id
     FOREIGN KEY (user_id) REFERENCES users (user_id)
