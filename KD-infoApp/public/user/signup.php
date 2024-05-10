@@ -9,7 +9,6 @@
 
 <body>
     <h2>新規登録</h2>
-
     <?php
     // フォームが送信された場合の処理
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,24 +17,20 @@
         $username = "kobe"; // データベースのユーザー名
         $password = "denshi"; // データベースのパスワード
         $dbname = "prosite"; // データベース名
-
         // フォームから受け取ったデータ
         $user_name = $_POST['user_name'];
         $email_address = $_POST['email_address'];
         $user_pass = $_POST['user_pass'];
-
         try {
             // データベースに接続
             $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
             // ユーザー名とメールアドレスの重複をチェック
             $stmt_check = $pdo->prepare("SELECT * FROM users WHERE user_name = :user_name OR email_address = :email_address");
             $stmt_check->bindParam(':user_name', $user_name);
             $stmt_check->bindParam(':email_address', $email_address);
             $stmt_check->execute();
             $result = $stmt_check->fetch(PDO::FETCH_ASSOC);
-
             if ($result) {
                 echo "すでにアカウントが存在しています";
             } else {
@@ -56,6 +51,7 @@
             echo "エラー: " . $e->getMessage();
         }
     }
+
     ?>
 
     <!-- 登録フォーム -->
@@ -74,6 +70,7 @@
         </div>
         <button type="submit">登録</button>
     </form>
+
 </body>
 
 </html>

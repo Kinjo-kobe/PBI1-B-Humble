@@ -96,7 +96,6 @@
         <button class="button" onclick="openModal('loginModal')">ログイン</button>
         <a href="signup.php" class="button">アカウント新規作成</a>
     </div>
-
     <!-- ログインモーダル -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
