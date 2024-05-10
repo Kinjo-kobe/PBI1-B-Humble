@@ -6,6 +6,17 @@
   <title>Question Home</title>
 </head>
 <body>
-  <h1>Question Home</h1>
+  <?php
+    session_start(); // セッションを開始
+
+    if (isset($_SESSION['username'])) {
+      // ログインしているユーザー名を表示
+      echo "<h1>Welcome, " . htmlspecialchars($_SESSION['username']) . "!</h1>";
+    } else {
+      // ログイン情報がない場合のメッセージ
+      echo "<h1>Welcome to Question Home</h1>";
+      echo "<p>Please <a href='login.php'>login</a> to continue.</p>";
+    }
+  ?>
 </body>
 </html>

@@ -56,7 +56,7 @@
 
                         if ($result) {
                             $_SESSION["username"] = $input_username;
-                            echo "<script>window.location.href='home.php';</script>";
+                            echo "<script>window.location.href='../question/questionHome.php';</script>";
                             exit();
                         } else {
                             $errorMessage = 'ユーザー名またはパスワードが違います';
