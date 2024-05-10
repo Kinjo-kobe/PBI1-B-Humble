@@ -1,195 +1,106 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT分野情報共有サイト</title>
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome CSSを追加 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* CSSスタイル */
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-
-        .container {
-            text-align: center
-        }
-
-        .title {
-            font-size: 60px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .button {
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-        }
-
-        /* モーダルスタイル */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: #333;
         }
 
         .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            border-radius: 5px;
-            position: relative;
-        }
-
-        .close {
-            color: #aaa;
-            position: absolute;
-            right: 10px;
-            top: 5px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .input-field {
-            margin: 10px 0;
-            text-align: left;
-        }
-
-        .input-field label {
-            display: block;
-            margin-bottom: 5px;
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #444;
         }
 
         .input-field input {
-            width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            background-color: #333;
+            color: #ccc;
+            border-color: #555;
+        }
+
+        .input-field input:focus {
+            border-color: #777;
+            outline: none;
+        }
+
+        .toggle-password {
+            cursor: pointer;
         }
     </style>
 </head>
-
-<body>
-    <div class="container">
-        <div class="title">IT分野情報共有サイト</div>
-        <button class="button" onclick="openModal('loginModal')">ログイン</button>
-        <a href="signup.php" class="button">アカウント新規作成</a>
-    </div>
-    <!-- ログインモーダル -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('loginModal')">&times;</span>
-            <!-- PHPコード -->
+<body class="flex justify-center items-center h-screen">
+    <div class="modal-content p-8 rounded-lg w-96">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="space-y-4">
+            <h1 class="text-lg font-bold text-center mb-4">Login</h1>
             <?php
-            session_start();
+                session_start();
+                $errorMessage = '';
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $servername = "localhost";
+                    $username = "kobe";
+                    $password = "denshi";
+                    $dbname = "prosite";
+                    $input_username = $_POST["username"];
+                    $input_password = $_POST["password"];
 
-            // もし既にログインしている場合、ポップアップを表示して終了
-            if (isset($_SESSION['username'])) {
-                echo "<script>alert('既にログインしています'); window.location.href='home.php';</script>";
-                exit();
-            }
+                    try {
+                        $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
+                        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                        $stmt = $conn->prepare("SELECT user_pass FROM users WHERE user_name = :username");
+                        $stmt->bindParam(':username', $input_username);
+                        $stmt->execute();
+                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // POSTリクエストがあるかどうかをチェック
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                // データベース接続情報
-                $servername = "localhost"; // データベースのホスト名
-                $username = "kobe"; // データベースのユーザー名
-                $password = "denshi"; // データベースのパスワード
-                $dbname = "prosite"; // データベース名
-
-                // ユーザーからの入力を取得
-                $input_username = $_POST["user_name"];
-                $input_password = $_POST["user_pass"];
-
-                try {
-                    // データベースに接続
-                    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-                    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                    // 入力されたユーザー名とパスワードを検証
-                    $stmt = $conn->prepare("SELECT * FROM users WHERE user_name = :username AND user_pass = :password");
-                    $stmt->bindParam(':username', $input_username);
-                    $stmt->bindParam(':password', $input_password);
-                    $stmt->execute();
-
-                    // 結果を取得
-                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                    // ログイン成功時の処理
-                    if ($result) {
-                        $_SESSION["username"] = $input_username;
-                        // ログイン成功したらhome.phpにリダイレクト
-                        echo "<script>window.location.href='home.php';</script>";
-                        exit();
-                    } else {
-                        // ログイン失敗時のポップアップ表示
-                        echo "<script>alert('ユーザー名またはパスワードが違います');</script>";
+                        if ($result && password_verify($input_password, $result['user_pass'])) {
+                            $_SESSION["username"] = $input_username;
+                            echo "<script>window.location.href='../posting/index.php';</script>";
+                            exit();
+                        } else {
+                            $errorMessage = 'ユーザー名またはパスワードが違います';
+                        }
+                    } catch (PDOException $e) {
+                        $errorMessage = "エラー: " . $e->getMessage();
                     }
-                } catch (PDOException $e) {
-                    echo "<p>エラー: " . $e->getMessage() . "</p>";
                 }
-            }
             ?>
-
-            <!-- ログインフォーム -->
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <div class="input-field">
-                    <label for="username">ユーザー名:</label>
-                    <input type="text" id="username" name="user_name" required>
-                </div>
-                <div class="input-field">
-                    <label for="password">パスワード:</label>
-                    <input type="password" id="password" name="user_pass" required>
-                </div>
-                <button type="submit" class="button">ログイン</button>
-            </form>
-        </div>
+            <?php if ($errorMessage): ?>
+                <p class="text-red-500 text-xs italic"><?php echo $errorMessage; ?></p>
+            <?php endif; ?>
+            <div class="input-field">
+                <input type="text" id="username" name="username" placeholder="ユーザー名" required class="mt-1 block w-full px-3 py-2 rounded-md">
+            </div>
+            <div class="input-field relative">
+                <input type="password" id="password" name="password" placeholder="パスワード" required class="mt-1 block w-full px-3 py-2 rounded-md">
+                <span class="toggle-password absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                    <i class="fa fa-eye-slash" aria-hidden="true" onclick="togglePasswordVisibility('password')"></i>
+                </span>
+            </div>
+            <button type="submit" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 w-full rounded focus:outline-none focus:shadow-outline">ログイン</button>
+            <p class="text-xs text-gray-400 mt-3">初めてご利用ですか？ <a href="signup.php" class="text-red-500 hover:text-red-700">新規登録はこちら</a></p>
+        </form>
     </div>
 
-    <!-- JavaScript -->
+    <!-- JavaScript for Modal, etc -->
     <script>
-        // JavaScript関数
-        function openModal(modalId) {
-            var modal = document.getElementById(modalId);
-            modal.style.display = "block";
-        }
-
-        function closeModal(modalId) {
-            var modal = document.getElementById(modalId);
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            var modals = document.getElementsByClassName('modal');
-            for (var i = 0; i < modals.length; i++) {
-                var modal = modals[i];
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
+        function togglePasswordVisibility(id) {
+            var passwordInput = document.getElementById(id);
+            var toggleIcon = passwordInput.nextElementSibling.children[0];
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.add('fa-eye');
+                toggleIcon.classList.remove('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.add('fa-eye-slash');
+                toggleIcon.classList.remove('fa-eye');
             }
         }
     </script>
 </body>
-
 </html>
