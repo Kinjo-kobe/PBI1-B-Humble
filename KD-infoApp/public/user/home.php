@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    header("location: home.php"); // ログインしていない場合はログインページにリダイレクト
+    header("location: login.html"); // ログインしていない場合はログインページにリダイレクト
     exit;
 }
 ?>
