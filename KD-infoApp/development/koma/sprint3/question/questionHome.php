@@ -7,7 +7,10 @@
 </head>
 <body>
   <?php
-    session_start(); // セッションを開始
+    include '..\Components\Header\header.php';
+    session_start(); // セッションを開始または継続
+
+    renderHeader('posting'); // または 'question' などのアクティブページを指定
 
     if (isset($_SESSION['username'])) {
       // ログインしているユーザー名を表示
