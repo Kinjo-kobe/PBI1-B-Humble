@@ -11,7 +11,7 @@ use prosite;
 # テーブル「users」を作成
 create table users(
     user_id int auto_increment primary key ,
-    user_name varchar(255) default 'ゲスト',
+    user_name varchar(255) ,
     user_pass varchar(255) ,
     email_address varchar(255),
     profile_title varchar(100) ,
