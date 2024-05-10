@@ -12,7 +12,7 @@ use prosite;
 create table users(
     user_id int auto_increment primary key ,
     user_name varchar(255) ,
-    user_pass varchar(255) ,
+    user_pass varchar(1000) ,
     email_address varchar(255),
     profile_title varchar(100) ,
     profile_text varchar(1000)
