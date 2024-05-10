@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login to KD-info</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome CSSを追加 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="\PBI1-B-Humble\KD-infoApp\public\Components\static\AppIcon\KD-info2.png">
+
     <style>
         body {
             background-color: #333;
@@ -59,7 +61,9 @@
 
                         if ($result && password_verify($input_password, $result['user_pass'])) {
                             $_SESSION["username"] = $input_username;
-                            echo "<script>window.location.href='../posting/index.php';</script>";
+                            // ログイン完了後に誘導するエントリポイントへリダイレクト
+                            // テスト段階では質問一覧画面へリダイレクト
+                            echo "<script>window.location.href='../question/questionHome.php';</script>";
                             exit();
                         } else {
                             $errorMessage = 'ユーザー名またはパスワードが違います';

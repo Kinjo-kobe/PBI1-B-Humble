@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
+    <title>Sign up for KD-info</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome CSSを追加 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="\PBI1-B-Humble\KD-infoApp\public\Components\static\AppIcon\KD-info2.png">
     <style>
         body {
             background-color: #333;
@@ -49,7 +50,6 @@
                     $input_password = $_POST["password"];
                     $confirm_password = $_POST["confirm_password"];
 
-                    // Check if username or email already exists
                     try {
                         $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
                         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -72,14 +72,12 @@
                         } elseif ($input_password !== $confirm_password) {
                             echo "<p class='text-red-500'>パスワードが一致しません。</p>";
                         } else {
-                            // Hash the password
                             $hashed_password = password_hash($input_password, PASSWORD_DEFAULT);
                             $stmt = $conn->prepare("INSERT INTO users (user_name, user_pass, email_address) VALUES (:username, :password, :email)");
                             $stmt->bindParam(':username', $input_username);
                             $stmt->bindParam(':password', $hashed_password);
                             $stmt->bindParam(':email', $input_email);
                             $stmt->execute();
-                            // Set a session variable to display a signup completion message on login.php
                             session_start();
                             $_SESSION['signup_success'] = "サインアップが完了しました。ログインしてください。";
                             header("Location: login.php");
