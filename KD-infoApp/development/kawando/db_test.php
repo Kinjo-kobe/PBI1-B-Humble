@@ -1,4 +1,4 @@
-<!-- http://localhost/PBI1-B-Humble/KD-infoAppVer01/development/kawando/db_test.php -->
+<!-- http://localhost/PBI1-B-Humble/KD-infoApp/development/kawando/db_test.php -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,6 +36,27 @@
         </div>
     </form>
 
+    <!-- 画像アップロードのテスト -->
+    <form action="upload_test.php" method="post" enctype="multipart/form-data">
+        <div class="login-container">
+            <h2>画像アップロードのテスト</h2>
+            <form>
+                <input type="file" name="image">
+                <button type="submit">送る</button>
+            </form>
+    </form>
+
+    <!-- 画像表示のテスト -->
+    <form action="image_test.php" method="POST" enctype="multipart/form-data">
+        <div class="login-container">
+            <h2>画像表示のテスト</h2>
+            <form>
+                <input type="text" id="question_id" name="question_id" placeholder="表示する画像のquestion_idを半角数字で入力" required>
+                <button type="submit">画像を見る</button>
+            </form>
+    </form>
+
+    <!-- テーブルの表示 -->
     <form>
         <?php
         $dsn = 'mysql:host=localhost;dbname=prosite;charset=utf8'; // データベースの接続情報（prositeに接続）
@@ -48,6 +69,7 @@
             $sql = 'select * from users'; // SQL文を変数に代入
             $stmt = $pdo->query($sql); // SQL文を実行
             $results = $stmt->fetchALL(); // 実行結果を取得
+            echo '<br>';
             echo '----------usersテーブルのデータ一覧----------';
             echo '<br>';
             foreach ($results as $result) {
@@ -72,6 +94,7 @@
             echo '<br>';
             foreach ($results as $result) {
                 echo $result['question_id'] . ' ,' . $result['user_id'] . ' ,' . $result['question_title'] . ' ,' . $result['question_text'] . ' ,'; // sql文の結果を出力
+                echo $result['question_good'] . ' ,' . $result['question_code'] . ' ,' . $result['question_image_name'] . ' ,' . $result['question_image'] . ' ,';
                 echo $result['question_time'];
                 echo '<br>';
             }
