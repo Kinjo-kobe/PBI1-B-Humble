@@ -20,7 +20,7 @@
 </head>
 <body>
   <?php
-    // セッションの開始とヘッダーインポート
+    // セッションの開始とヘッダーのインポート
     session_start();
     include '..\Components\src\header\header.php';
     renderHeader('question');
