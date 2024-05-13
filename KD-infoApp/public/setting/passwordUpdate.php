@@ -4,9 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パスワード変更</title>
+    <title>PasswordChange KD-info</title>
+    <!-- TailwindCSSに必要なリンク -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome CSSを追加 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- タブのアイコン設定(相対パスは非表示になるバグがあるので絶対パスで指定中) -->
+    <link rel="icon" type="image/png" href="\PBI1-B-Humble\KD-infoApp\public\Components\static\AppIcon\KD-info2.png">
+
     <style>
         body {
             background-color: #333;
@@ -35,13 +40,27 @@
     </style>
 </head>
 
-<body class="flex justify-center items-center h-screen">
+<body>
+    <?php
+        // セッションの開始とヘッダーのインポート
+        session_start();
+        include '..\Components\src\header\header.php';
+        renderHeader('question');
+
+        // テスト用セッション情報表示
+        if (isset($_SESSION['user_name'])) {
+            // ログインしているユーザー名を表示
+            echo "<h1>Welcome, " . htmlspecialchars($_SESSION['user_name']) . "!</h1>";
+        } else {
+            // ログイン情報がない場合のメッセージ
+            echo "<h1>Welcome to Question Home</h1>";
+            echo "<p>Please <a href='\PBI1-B-Humble\KD-infoApp\public\user\login.php'>login</a> to continue.</p>";
+        }
+    ?>
     <div class="modal-content p-8 rounded-lg w-96">
         <h2 class="text-lg font-bold text-center mb-4">パスワード変更</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="space-y-4">
             <?php
-            session_start();
-
             // もしログインしていない場合、ログインページにリダイレクト
             if (!isset($_SESSION['username'])) {
                 header("Location: ../user/login.php");
@@ -72,8 +91,8 @@
                         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                         // 現在のパスワードを検証
-                        $stmt = $conn->prepare("SELECT user_pass FROM users WHERE user_name = :username");
-                        $stmt->bindParam(':username', $_SESSION['username']);
+                        $stmt = $conn->prepare("SELECT user_pass FROM users WHERE user_name = :user_name");
+                        $stmt->bindParam(':user_name', $_SESSION['user_name']);
                         $stmt->execute();
                         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -91,13 +110,13 @@
                                     $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
 
                                     // パスワードを更新するクエリ
-                                    $stmt = $conn->prepare("UPDATE users SET user_pass = :hashed_password WHERE user_name = :username");
+                                    $stmt = $conn->prepare("UPDATE users SET user_pass = :hashed_password WHERE user_name = :user_name");
                                     $stmt->bindParam(':hashed_password', $hashed_new_password);
-                                    $stmt->bindParam(':username', $_SESSION['username']);
+                                    $stmt->bindParam(':user_name', $_SESSION['user_name']);
                                     $stmt->execute();
 
                                     // パスワードが更新されたらホームページにリダイレクト
-                                    header("Location: ../posting/index.php");
+                                    header("Location: /PBi1-B-Humble/KD-infoApp/public/posting/index.php");
                                     exit();
                                 }
                             } else {

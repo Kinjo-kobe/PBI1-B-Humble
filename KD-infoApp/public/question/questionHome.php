@@ -21,7 +21,7 @@
 </head>
 <body class="text-white">
   <?php
-  // セッションの開始とヘッダーインポート
+  // セッションの開始とヘッダーのインポート
   session_start();
   include '..\Components\src\header\header.php';
   renderHeader('question');
@@ -33,7 +33,7 @@
   } else {
     // ログイン情報がない場合のメッセージ
     echo "<h1>Welcome to Question Home</h1>";
-    echo "<p>Please <a href='login.php'>login</a> to continue.</p>";
+    echo "<p>Please <a href='\PBI1-B-Humble\KD-infoApp\public\user\login.php'>login</a> to continue.</p>";
   }
 
   ?>

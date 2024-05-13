@@ -62,7 +62,7 @@
                         if ($result && password_verify($input_password, $result['user_pass'])) {
                             $_SESSION["user_name"] = $input_user_name; // セッション変数を正しく設定
                             // ログイン完了後に誘導するエントリポイントへリダイレクト
-                            echo "<script>window.location.href='../question/questionHome.php';</script>";
+                            echo "<script>window.location.href='../posting/index.php';</script>";
                             exit();
                         } else {
                             $errorMessage = 'ユーザー名またはパスワードが違います';

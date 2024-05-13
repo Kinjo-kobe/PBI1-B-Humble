@@ -73,7 +73,7 @@ function renderHeader($activePage)
         <div class="account-option"><strong>{$_SESSION['username']}</strong></div>
         <div class="account-option"><a href="../MyProfile/MyProfile.php">マイプロフィール</a></div>
         <div class="account-option"><a href="../setting/setting.php">設定</a></div>
-        <div class="account-option"><a href="logout.php" onclick="logout()">ログアウト</a></div>
+        <div class="account-option"><a href="/PBI1-B-Humble/KD-infoApp/public/user/logout.php" onclick="logout()">ログアウト</a></div>
     </div>
     <script>
         function togglePopup(event) {
@@ -89,7 +89,7 @@ function renderHeader($activePage)
         }
         function logout() {
             // Perform logout and refresh current path
-            fetch('logout.php').then(() => {
+            fetch('/PBI1-B-Humble/KD-infoApp/public/').then(() => {
                 window.location.reload();
             }).catch(err => console.error('Logout failed', err));
         }
