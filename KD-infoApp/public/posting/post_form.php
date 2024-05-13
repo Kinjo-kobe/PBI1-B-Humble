@@ -32,7 +32,15 @@
             <option value="Kotlin">Kotlin</option>
             <option value="Go">Go</option>
             <option value="Rust">Rust</option>
-            <!-- 追加したい他の言語のオプションをここに追加 -->
+            <!-- 新しく追加する言語オプション -->
+            <option value="Scala">Scala</option>
+            <option value="Haskell">Haskell</option>
+            <option value="Erlang">Erlang</option>
+            <option value="Lua">Lua</option>
+            <option value="TypeScript">TypeScript</option>
+            <option value="Perl">Perl</option>
+            <option value="Elixir">Elixir</option>
+            <option value="Clojure">Clojure</option>
         </select><br><br>
         
         <input type="submit" value="投稿">
