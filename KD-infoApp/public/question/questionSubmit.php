@@ -29,27 +29,14 @@ $password = "denshi";
 $dsn = 'mysql:host=localhost;dbname=prosite;charset=utf8'; // データベースの接続情報（prositeに接続）
 
 // ヘッダーのインポート
-include '..\Components\src\header\header.php';
+include '..\Components\src\renderHeader.php';
 renderHeader('question');
-
-/* ----------------------------- */
-// テスト用セッション情報表示
-if (isset($_SESSION['user_name'])) {
-  // ログインしているユーザー名を表示
-  echo "<h1>Welcome, " . htmlspecialchars($_SESSION['user_name']) . "!</h1>";
-} else {
-  // ログイン情報がない場合のメッセージ
-  echo "<h1>Welcome to Question Home</h1>";
-  echo "<p>Please <a href='\PBI1-B-Humble\KD-infoApp\public\user\login.php'>login</a> to continue.</p>";
-}
-/* ----------------------------- */
-
 
 // Handle question submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];
     $text = $_POST['text'];
-    $user_id = $_SESSION['user_name']; // Assume user_id is stored in session
+    $user_id = $_SESSION['session_user_name']; // Assume user_id is stored in session
 
     $stmt = $conn->prepare("INSERT INTO questions (user_id, question_title, question_text, question_time, question_good) VALUES (:user_id, :title, :text, NOW(), 0)");
     $stmt->bindParam(':user_name', $user_id);

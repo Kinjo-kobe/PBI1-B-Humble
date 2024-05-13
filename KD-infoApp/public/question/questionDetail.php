@@ -29,20 +29,8 @@ $password = "denshi";
 $dsn = 'mysql:host=localhost;dbname=prosite;charset=utf8'; // データベースの接続情報（prositeに接続）
 
 // ヘッダーのインポート
-include '..\Components\src\header\header.php';
+include '..\Components\src\renderHeader.php';
 renderHeader('question');
-
-/* ----------------------------- */
-// テスト用セッション情報表示
-if (isset($_SESSION['user_name'])) {
-  // ログインしているユーザー名を表示
-  echo "<h1>Welcome, " . htmlspecialchars($_SESSION['user_name']) . "!</h1>";
-} else {
-  // ログイン情報がない場合のメッセージ
-  echo "<h1>Welcome to Question Home</h1>";
-  echo "<p>Please <a href='\PBI1-B-Humble\KD-infoApp\public\user\login.php'>login</a> to continue.</p>";
-}
-/* ----------------------------- */
 
 // Validate and fetch question details
 if (!isset($_GET['id'])) {

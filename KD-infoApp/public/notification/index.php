@@ -57,10 +57,10 @@
 <body>
     <?php
         session_start(); // セッションを開始または継続
-        include '..\Components\src\header\header.php';
+        include '..\Components\src\renderHeader.php';
         renderHeader('search'); // または 'question' などのアクティブページを指定
     ?>
-    <h1 class="text-white">通知一覧表示画面</h1>
+    <h1 class="text-white">通知一覧表示画面 工数が未知数のためSPRINT#4で実装するか捨てるか決断します。</h1>
     <div class="notification-list">
         <div class="notification-item">
             <img src="https://via.placeholder.com/50" alt="User Icon" class="user-icon">

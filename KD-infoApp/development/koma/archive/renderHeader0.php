@@ -70,7 +70,6 @@ function renderHeader($activePage)
         </div>
     </div>
     <div id="accountPopup">
-        <div class="account-option"><strong>{$_SESSION['username']}</strong></div>
         <div class="account-option"><a href="../MyProfile/MyProfile.php">マイプロフィール</a></div>
         <div class="account-option"><a href="../setting/setting.php">設定</a></div>
         <div class="account-option"><a href="/PBI1-B-Humble/KD-infoApp/public/user/logout.php" onclick="logout()">ログアウト</a></div>

@@ -44,13 +44,13 @@
     <?php
         // セッションの開始とヘッダーのインポート
         session_start();
-        include '..\Components\src\header\header.php';
+        include '..\Components\src\renderHeader.php';
         renderHeader('question');
 
         // テスト用セッション情報表示
-        if (isset($_SESSION['user_name'])) {
+        if (isset($_SESSION['session_user_name'])) {
             // ログインしているユーザー名を表示
-            echo "<h1>Welcome, " . htmlspecialchars($_SESSION['user_name']) . "!</h1>";
+            echo "<h1>Welcome, " . htmlspecialchars($_SESSION['session_user_name']) . "!</h1>";
         } else {
             // ログイン情報がない場合のメッセージ
             echo "<h1>Welcome to Question Home</h1>";
@@ -62,7 +62,7 @@
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="space-y-4">
             <?php
             // もしログインしていない場合、ログインページにリダイレクト
-            if (!isset($_SESSION['username'])) {
+            if (!isset($_SESSION['session_user_name'])) {
                 header("Location: ../user/login.php");
                 exit();
             }
@@ -92,7 +92,7 @@
 
                         // 現在のパスワードを検証
                         $stmt = $conn->prepare("SELECT user_pass FROM users WHERE user_name = :user_name");
-                        $stmt->bindParam(':user_name', $_SESSION['user_name']);
+                        $stmt->bindParam(':user_name', $_SESSION['session_user_name']);
                         $stmt->execute();
                         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -112,7 +112,7 @@
                                     // パスワードを更新するクエリ
                                     $stmt = $conn->prepare("UPDATE users SET user_pass = :hashed_password WHERE user_name = :user_name");
                                     $stmt->bindParam(':hashed_password', $hashed_new_password);
-                                    $stmt->bindParam(':user_name', $_SESSION['user_name']);
+                                    $stmt->bindParam(':user_name', $_SESSION['session_user_name']);
                                     $stmt->execute();
 
                                     // パスワードが更新されたらホームページにリダイレクト

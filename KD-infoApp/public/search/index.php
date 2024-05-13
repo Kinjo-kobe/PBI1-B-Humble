@@ -87,10 +87,10 @@
 <body>
     <?php
         session_start();
-        include '..\Components\src\header\header.php';
+        include '..\Components\src\renderHeader.php';
         renderHeader('search');
     ?>
-    <h1>検索画面</h1>
+    <h1>検索画面 SPRINT#4で実装予定</h1>
     <div class="search-bar-container">
         <input type="text" class="search-bar" placeholder="キーワードを入力...">
     </div>

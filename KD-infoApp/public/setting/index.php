@@ -18,7 +18,7 @@
 <body>
 <?php
     session_start(); // セッションを開始または継続
-    include '..\Components\src\header\header.php';
+    include '..\Components\src\renderHeader.php';
     // renderHeader('posting'); // または 'question' などのアクティブページを指定
     renderHeader('setting'); // または 'question' などのアクティブページを指定
 ?>
