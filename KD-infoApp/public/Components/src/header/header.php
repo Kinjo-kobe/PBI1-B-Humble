@@ -1,10 +1,13 @@
 <?php
-function renderHeader($activePage) {
+function renderHeader($activePage)
+{
     // Determine active tab styles based on the current page
     $postingClass = $activePage == 'posting' ? 'bg-blue-700' : 'text-white';
     $questionClass = $activePage == 'question' ? 'bg-orange-700' : 'text-white';
     $searchClass = $activePage == 'search' ? 'bg-orange-700' : 'text-white';
     $notificationClass = $activePage == 'notification' ? 'bg-orange-700' : 'text-white';
+    $profileClass = $activePage == 'profile' ? 'bg-orange-700' : 'text-white';
+
 
     // Output the header HTML
     echo <<<HEADER
@@ -95,4 +98,3 @@ function renderHeader($activePage) {
 </html>
 HEADER;
 }
-?>
