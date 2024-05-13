@@ -35,15 +35,37 @@ if (isset($_POST['like'])) {
     header("Refresh:0");
 }
 
+// 回答の取得
+$reply_stmt = $conn->prepare("SELECT r.*, u.user_name FROM replies r JOIN users u ON r.user_id = u.user_id WHERE r.question_id = :question_id ORDER BY r.reply_time");
+$reply_stmt->bindParam(':question_id', $question_id);
+$reply_stmt->execute();
+$replies = $reply_stmt->fetchAll();
+
 // 回答送信の処理
 if (isset($_POST['submit_reply'])) {
+    $user_name = $_SESSION['session_user_name'];
     $reply_text = $_POST['reply_text'];
-    $stmt = $conn->prepare("INSERT INTO replies (user_id, question_id, reply_text, reply_time) VALUES (:user_id, :question_id, :reply_text, NOW())");
-    $stmt->bindParam(':user_id', $_SESSION['session_user_id']);
-    $stmt->bindParam(':question_id', $question_id);
-    $stmt->bindParam(':reply_text', $reply_text);
-    $stmt->execute();
-    header("Location: questionDetail.php?id=$question_id"); // ページをリフレッシュ
+
+    // user_idの取得
+    $user_stmt = $conn->prepare("SELECT user_id FROM users WHERE user_name = :user_name");
+    $user_stmt->bindParam(':user_name', $user_name);
+    $user_stmt->execute();
+    $user = $user_stmt->fetch();
+
+    if ($user) {
+        $user_id = $user['user_id'];
+
+        // 回答をrepliesテーブルに挿入
+        $reply_stmt = $conn->prepare("INSERT INTO replies (user_id, question_id, reply_text, reply_time) VALUES (:user_id, :question_id, :reply_text, NOW())");
+        $reply_stmt->bindParam(':user_id', $user_id);
+        $reply_stmt->bindParam(':question_id', $question_id);
+        $reply_stmt->bindParam(':reply_text', $reply_text);
+        $reply_stmt->execute();
+
+        header("Location: questionDetail.php?id=$question_id"); // ページをリフレッシュ
+    } else {
+        echo "<p>ユーザー情報の取得に失敗しました。</p>";
+    }
 }
 ?>
 
@@ -78,9 +100,10 @@ if (isset($_POST['submit_reply'])) {
         <div>
             <form method="post">
                 <button name="like" class="bg-red-500 text-white p-2 rounded">いいね</button>
-                <span><?php echo $question['question_good']; ?> いいね</span>
+                <span class="text-white"><?php echo $question['question_good']; ?> いいね</span>
             </form>
         </div>
+
         <!-- 回答モーダルウィンドウ起動ボタン -->
         <button onclick="document.getElementById('replyModal').style.display='block'" class="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded">回答する</button>
         <!-- 回答モーダルウィンドウ -->
@@ -101,7 +124,25 @@ if (isset($_POST['submit_reply'])) {
             </div>
         </div>
     </div>
+
+    <!-- 回答表示 -->
+    <div class="mt-4">
+        <h2 class="text-white text-xl mb-2">回答:</h2>
+        <?php if ($replies): ?>
+            <?php foreach ($replies as $reply): ?>
+                <div class="bg-gray-800 text-white p-4 rounded mb-2">
+                    <p><strong><?php echo htmlspecialchars($reply['user_name']); ?></strong> (<?php echo date('Y-m-d H:i', strtotime($reply['reply_time'])); ?>)</p>
+                    <p><?php echo htmlspecialchars($reply['reply_text']); ?></p>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="text-white">まだ回答がありません。</p>
+        <?php endif; ?>
+    </div>
+
+    </div>
 </body>
+
 <script>
     // モーダルウィンドウの外をクリックしたときに閉じる
     window.onclick = function(event) {
@@ -110,4 +151,5 @@ if (isset($_POST['submit_reply'])) {
         }
     }
 </script>
+
 </html>
