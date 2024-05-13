@@ -77,6 +77,10 @@
     <?php
     session_start();
 
+    // headerインポート
+    include '..\Components\src\header\header.php';
+    renderHeader('posting'); // または 'question' などのアクティブページを指定
+
     // ソート状態と言語フィルタの管理
     if (!isset($_SESSION['sort'])) {
         $_SESSION['sort'] = ['field' => 'date', 'order' => 'desc'];
