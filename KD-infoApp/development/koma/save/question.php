@@ -54,3 +54,42 @@
     // } catch (PDOException $e) {
     //     echo "Connection failed: " . $e->getMessage();
     // }
+
+
+    <!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>質問の新規作成</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .input-bg { background-color: #333; } /* 入力フィールドの背景色を暗くする */
+    .border-black { border: 1px solid black; } /* 枠を黒い線で囲む */
+  </style>
+</head>
+<body class="container mx-auto px-4 py-4">
+    <h1 class="text-2xl font-bold mb-4 text-white">質問の新規作成</h1>
+    <form action="submitQuestion.php" method="POST" class="bg-gray-900 p-4 rounded-lg border-black">
+        <div class="mb-4">
+            <label for="title" class="block text-sm font-bold mb-2 text-white">質問のタイトル:</label>
+            <input type="text" name="title" id="title" required class="w-full p-2 rounded input-bg text-white" placeholder="Enter the title">
+        </div>
+        <div class="mb-6">
+            <label for="text" class="block text-sm font-bold mb-2 text-white">質問内容:</label>
+            <textarea name="text" id="text" required class="w-full p-2 rounded input-bg text-white" placeholder="Describe your question"></textarea>
+        </div>
+        <!-- user_idをセッションから取得して隠しフィールドとして送信 -->
+        <?php
+        session_start();
+        $user_id = $_SESSION['user_id'] ?? 'guest'; // セッションが設定されていない場合はゲストとして扱う
+        echo "<input type='hidden' name='user_id' value='$user_id'>";
+        ?>
+        <div class="flex justify-end">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                質問を送信
+            </button>
+        </div>
+    </form>
+</body>
+</html>

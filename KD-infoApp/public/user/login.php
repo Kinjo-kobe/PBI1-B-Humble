@@ -45,24 +45,23 @@
                 $errorMessage = '';
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $servername = "localhost";
-                    $username = "kobe";
-                    $password = "denshi";
+                    $dbUsername = "kobe";
+                    $dbPassword = "denshi";
                     $dbname = "prosite";
-                    $input_username = $_POST["username"];
+                    $input_user_name = $_POST["user_name"];
                     $input_password = $_POST["password"];
 
                     try {
-                        $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
+                        $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $dbUsername, $dbPassword);
                         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                        $stmt = $conn->prepare("SELECT user_pass FROM users WHERE user_name = :username");
-                        $stmt->bindParam(':username', $input_username);
+                        $stmt = $conn->prepare("SELECT user_pass FROM users WHERE user_name = :user_name");
+                        $stmt->bindParam(':user_name', $input_user_name);
                         $stmt->execute();
                         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
                         if ($result && password_verify($input_password, $result['user_pass'])) {
-                            $_SESSION["username"] = $input_username;
+                            $_SESSION["user_name"] = $input_user_name; // セッション変数を正しく設定
                             // ログイン完了後に誘導するエントリポイントへリダイレクト
-                            // テスト段階では質問一覧画面へリダイレクト
                             echo "<script>window.location.href='../question/questionHome.php';</script>";
                             exit();
                         } else {
@@ -77,7 +76,7 @@
                 <p class="text-red-500 text-xs italic"><?php echo $errorMessage; ?></p>
             <?php endif; ?>
             <div class="input-field">
-                <input type="text" id="username" name="username" placeholder="ユーザー名" required class="mt-1 block w-full px-3 py-2 rounded-md">
+                <input type="text" id="username" name="user_name" placeholder="ユーザー名" required class="mt-1 block w-full px-3 py-2 rounded-md">
             </div>
             <div class="input-field relative">
                 <input type="password" id="password" name="password" placeholder="パスワード" required class="mt-1 block w-full px-3 py-2 rounded-md">

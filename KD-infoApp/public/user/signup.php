@@ -45,7 +45,8 @@
                     $username = "kobe";
                     $password = "denshi";
                     $dbname = "prosite";
-                    $input_username = $_POST["username"];
+
+                    $input_user_name = $_POST["user_name"];
                     $input_email = $_POST["email"];
                     $input_password = $_POST["password"];
                     $confirm_password = $_POST["confirm_password"];
@@ -54,14 +55,14 @@
                         $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
                         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                        $stmt = $conn->prepare("SELECT * FROM users WHERE user_name = :username OR email_address = :email");
-                        $stmt->bindParam(':username', $input_username);
+                        $stmt = $conn->prepare("SELECT * FROM users WHERE user_name = :user_name OR email_address = :email");
+                        $stmt->bindParam(':user_name', $input_user_name);
                         $stmt->bindParam(':email', $input_email);
                         $stmt->execute();
                         $exists = $stmt->fetch();
 
                         if ($exists) {
-                            if ($exists['user_name'] === $input_username) {
+                            if ($exists['user_name'] === $input_user_name) {
                                 echo "<p class='text-red-500'>既に存在するユーザーネームです。</p>";
                             }
                             if ($exists['email_address'] === $input_email) {
@@ -73,9 +74,9 @@
                             echo "<p class='text-red-500'>パスワードが一致しません。</p>";
                         } else {
                             $hashed_password = password_hash($input_password, PASSWORD_DEFAULT);
-                            $stmt = $conn->prepare("INSERT INTO users (user_name, user_pass, email_address) VALUES (:username, :password, :email)");
-                            $stmt->bindParam(':username', $input_username);
-                            $stmt->bindParam(':password', $hashed_password);
+                            $stmt = $conn->prepare("INSERT INTO users (user_name, user_pass, email_address) VALUES (:user_name, :user_pass, :email)");
+                            $stmt->bindParam(':user_name', $input_user_name);
+                            $stmt->bindParam(':user_pass', $hashed_password);
                             $stmt->bindParam(':email', $input_email);
                             $stmt->execute();
                             session_start();
@@ -89,7 +90,7 @@
                 }
             ?>
             <div class="input-field">
-                <input type="text" id="username" name="username" placeholder="ユーザー名" required class="mt-1 block w-full px-3 py-2 rounded-md">
+                <input type="text" id="user_id" name="user_name" placeholder="ユーザー名" required class="mt-1 block w-full px-3 py-2 rounded-md">
             </div>
             <div class="input-field">
                 <input type="email" id="email" name="email" placeholder="メールアドレス" required class="mt-1 block w-full px-3 py-2 rounded-md">

@@ -13,50 +13,70 @@
     <link rel="icon" type="image/png" href="\PBI1-B-Humble\KD-infoApp\public\Components\static\AppIcon\KD-info2.png">
 
     <style>
+      /* 全画面共通のバックグラウンドカラー設定 */
         body {
             background-color: #333;
         }
     </style>
 </head>
-<body>
+<body class="text-white">
   <?php
-    session_start();  // セッションを開始または継続
-    include '..\Components\src\header\header.php';    // ヘッダーの読み込み
-    renderHeader('question');   // または 'question' などのアクティブページを指定
+  // セッションの開始とヘッダーインポート
+  session_start();
+  include '..\Components\src\header\header.php';
+  renderHeader('question');
 
-    // DB connect
-    $dbname = "prosite";
-    $servername = "localhost";
-    $username = "kobe";
-    $password = "denshi";
+  // テスト用セッション情報表示
+  if (isset($_SESSION['user_name'])) {
+    // ログインしているユーザー名を表示
+    echo "<h1>Welcome, " . htmlspecialchars($_SESSION['user_name']) . "!</h1>";
+  } else {
+    // ログイン情報がない場合のメッセージ
+    echo "<h1>Welcome to Question Home</h1>";
+    echo "<p>Please <a href='login.php'>login</a> to continue.</p>";
+  }
 
-    $dsn = 'mysql:host=localhost;dbname=prosite;charset=utf8'; // データベースの接続情報（prositeに接続）
-
-    // READ_Questions
-    try {
-      $pdo = new PDO($dsn, $username, $password); // データベースに接続
-      $sql = 'select * from questions'; // SQL文を変数に代入
-      $stmt = $pdo->query($sql); // SQL文を実行
-      $results = $stmt->fetchALL(); // 実行結果を取得
-      echo '----------questionsテーブルのデータ一覧----------';
-      echo '<br>';
-      foreach ($results as $result) {
-          echo $result['question_id'] . ' ,' . $result['user_id'] . ' ,' . $result['question_title'] . ' ,' . $result['question_text'] . ' ,'; // sql文の結果を出力
-          echo $result['question_good'] . ' ,' . $result['question_code'] . ' ,' . $result['question_image_name'] . ' ,' . $result['question_image'] . ' ,';
-          echo $result['question_time'];
-          echo '<br>';
-      }
-    } catch (PDOException $e) {
-        echo "接続に失敗" . $e->getMessage();
-        // echo '接続に失敗しました'; // 失敗した場合に表示
-        // var_dump($e->getMessage()); // エラー内容を出力
-        // exit; // プログラムを終了
-        // die();
-    }
-    $pdo = null;    // データベース接続を切断
   ?>
-  <button onclick="window.location.href='questionPost.php'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded fixed bottom-4 right-4">
-      質問を作成する
+  <div class="container mx-auto p-4">
+    <h1 class="text-xl font-bold mb-4">質問一覧</h1>
+      <?php
+        // DB connect
+        $dbname = "prosite";
+        $servername = "localhost";
+        $username = "kobe";
+        $password = "denshi";
+
+        $dsn = 'mysql:host=localhost;dbname=prosite;charset=utf8'; // データベースの接続情報（prositeに接続）
+
+        // READ_ALL_Questions
+        try {
+          $pdo = new PDO($dsn, $username, $password); // データベースに接続
+          $sql = 'select * from questions'; // SQL文を変数に代入
+          $stmt = $pdo->query($sql); // SQL文を実行
+          $results = $stmt->fetchALL(); // 実行結果を取得
+          echo '----------questionsテーブルのデータ一覧----------';
+          echo '<br>';
+          foreach ($results as $result) {
+              echo $result['question_id'] . ' ,' . $result['user_id'] . ' ,' . $result['question_title'] . ' ,' . $result['question_text'] . ' ,'; // sql文の結果を出力
+              echo $result['question_good'] . ' ,' . $result['question_code'] . ' ,' . $result['question_image_name'] . ' ,' . $result['question_image'] . ' ,';
+              echo $result['question_time'];
+              echo '<br>';
+          }
+        } catch (PDOException $e) {
+            echo "接続に失敗" . $e->getMessage();
+            // echo '接続に失敗しました'; // 失敗した場合に表示
+            // var_dump($e->getMessage()); // エラー内容を出力
+            // exit; // プログラムを終了
+            // die();
+        }
+        $pdo = null;    // データベース接続を切断
+        ?>
+  </div>
+  <button onclick="window.location.href='questionPost.php'"
+        class="bg-gray-800 hover:bg-blue-900 text-black font-bold border-2 border-black fixed bottom-8 right-8 flex items-center justify-center rounded-md"
+        style="width: 120px; height: 40px; font-size: 24px;">
+      +
   </button>
+
 </body>
 </html>
