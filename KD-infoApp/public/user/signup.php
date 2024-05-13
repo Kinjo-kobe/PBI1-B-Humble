@@ -10,17 +10,17 @@
     <link rel="icon" type="image/png" href="\PBI1-B-Humble\KD-infoApp\public\Components\static\AppIcon\KD-info2.png">
     <style>
         body {
-            background-color: #333;
+            background-color: #111;
         }
 
         .modal-content {
-            background-color: #222;
+            background-color: #111;
             color: #fff;
             border: 1px solid #444;
         }
 
         .input-field input {
-            background-color: #333;
+            background-color: #222;
             color: #ccc;
             border-color: #555;
         }

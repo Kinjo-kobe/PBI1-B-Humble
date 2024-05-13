@@ -11,17 +11,17 @@
 
     <style>
         body {
-            background-color: #333;
+            background-color: #111;
         }
 
         .modal-content {
-            background-color: #222;
+            background-color: #111;
             color: #fff;
             border: 1px solid #444;
         }
 
         .input-field input {
-            background-color: #333;
+            background-color: #222;
             color: #ccc;
             border-color: #555;
         }
@@ -60,7 +60,7 @@
                         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
                         if ($result && password_verify($input_password, $result['user_pass'])) {
-                            $_SESSION["user_name"] = $input_user_name; // セッション変数を正しく設定
+                            $_SESSION["session_user_name"] = $input_user_name; // セッション変数を正しく設定
                             // ログイン完了後に誘導するエントリポイントへリダイレクト
                             echo "<script>window.location.href='../posting/index.php';</script>";
                             exit();

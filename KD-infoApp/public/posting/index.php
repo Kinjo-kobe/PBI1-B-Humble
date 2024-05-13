@@ -78,7 +78,7 @@
     session_start();
 
     // headerインポート
-    include '..\Components\src\header\header.php';
+    include '..\Components\src\renderHeader.php';
     renderHeader('posting'); // または 'question' などのアクティブページを指定
 
     // ソート状態と言語フィルタの管理

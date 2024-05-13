@@ -128,9 +128,10 @@
 </head>
 <body>
   <?php
-  include '..\Components\src\header\header.php';
-  renderHeader('question');
+    include '..\Components\src\renderHeader.php';
+    renderHeader('question');
   ?>
+  <h1>MyProfile表示・編集画面 SPRINT#4で実装予定</h1>
   <div class="profile-container">
     <button class="edit-profile-button" onclick="location.href='edit_profile.html'">プロフィール編集</button>
     <img src="https://via.placeholder.com/180" alt="Profile Image" class="profile-image">

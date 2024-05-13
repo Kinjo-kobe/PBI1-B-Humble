@@ -1,10 +1,29 @@
+<?php
+    if (isset($_POST["logout"])) {
+        // セッション変数を全て解除
+        $_SESSION = array();
+        // クッキーに保存されているセッションIDを削除
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        // セッションを破棄
+        session_destroy();
+        // ログアウト後、エントリポイント(posting/index.php)にリダイレクト
+        header("Location: ../posting/index.php");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- タブのタイトル -->
-    <title>Questions KD-info</title>
+    <title>Logout KD-info</title>
     <!-- TailwindCSSに必要なリンク -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome CSSを追加 -->
@@ -18,32 +37,20 @@
     </style>
 </head>
 
-<body>
-    <?php
-    // セッション開始
-    session_start();
+<?php
+    // session_start();
 
     // ヘッダーのインポート
-    include '..\Components\src\header\header.php';
+    include '..\Components\src\renderHeader.php';
     renderHeader('question');
+?>
 
-    // ログアウト処理
-    if (isset($_POST["logout"])) {
-        // セッション変数を全て解除
-        $_SESSION = array();
-        // セッションを破棄
-        session_destroy();
-        // ログアウト後、エントリポイント(posting/index.php)にリダイレクト
-        // header("Location: ../posting/index.php");
-        exit;
-    }
-    ?>
-
-    <div class="container">
-        <div class="title">KD-infoからログアウトしますか？</div>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <button type="submit" class="button" name="logout">Yes</button>
-            <button type="button" class="button" onclick="goHome()">No</button>
+<body>
+    <div class="w-96 bg-gray-900 p-8 rounded-lg shadow-md text-white">
+        <h1 class="text-xl text-center mb-4">KD-infoからログアウトしますか？</h1>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="space-y-4">
+            <button type="submit" class="w-full bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" name="logout">Yes</button>
+            <button type="button" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="goHome()">No</button>
         </form>
     </div>
 
@@ -53,5 +60,4 @@
         }
     </script>
 </body>
-
 </html>
