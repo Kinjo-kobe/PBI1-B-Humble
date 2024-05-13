@@ -1,4 +1,4 @@
-<!-- http://localhost/PBI1-B-Humble/KD-infoApp/development/kawando/db_test.php -->
+<!-- http://localhost/PBI1-B-Humble/KD-infoApp/development/kawando/test/db_test.php -->
 <!DOCTYPE html>
 <html lang="en">
 
