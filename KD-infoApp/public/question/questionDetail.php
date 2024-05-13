@@ -13,7 +13,7 @@
     <link rel="icon" type="image/png" href="\PBI1-B-Humble\KD-infoApp\public\Components\static\AppIcon\KD-info2.png">
     <style>
         body {
-            background-color: #333;
+            background-color: #111;
         }
     </style>
 </head>
@@ -67,7 +67,7 @@ if (!$question) {
     </style>
 </head>
 <body>
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto p-4 text-white">
         <h1 class="text-white text-2xl"><?php echo htmlspecialchars($question['question_title']); ?></h1>
         <p class="text-white"><?php echo htmlspecialchars($question['question_text']); ?></p>
         <span class="text-white">Posted by <a href="userProfile.php?user_id=<?php echo $question['user_id']; ?>" class="text-blue-500 hover:text-blue-700"><?php echo htmlspecialchars($question['user_name']); ?></a> on <?php echo date('Y-m-d', strtotime($question['question_time'])); ?></span>

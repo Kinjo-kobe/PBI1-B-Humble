@@ -13,7 +13,7 @@
     <link rel="icon" type="image/png" href="\PBI1-B-Humble\KD-infoApp\public\Components\static\AppIcon\KD-info2.png">
     <style>
         body {
-            background-color: #333;
+            background-color: #111;
         }
     </style>
 </head>

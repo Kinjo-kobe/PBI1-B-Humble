@@ -31,7 +31,7 @@ $dsn = 'mysql:host=localhost;dbname=prosite;charset=utf8'; // データベース
 
 // ヘッダーのインポート
 include '../Components/src/renderHeader.php';
-renderHeader();
+renderHeader('question');
 
 
 // Database connection
@@ -51,15 +51,15 @@ $questions = $stmt->fetchAll();
     <div class="container mx-auto p-4">
         <h1 class="text-white text-xl">質問一覧</h1>
         <?php foreach ($questions as $question): ?>
-            <div class="bg-gray-800 text-white p-4 mb-3 rounded">
+            <div class="text-white p-4 mb-3 rounded" style="background-color: #222;">
                 <h2 class="font-bold"><?php echo htmlspecialchars($question['question_title']); ?></h2>
                 <p><?php echo htmlspecialchars($question['question_text']); ?></p>
                 <a href="questionDetail.php?id=<?php echo $question['question_id']; ?>" class="text-blue-500 hover:text-blue-700">Read more</a>
                 <span class="text-sm">Posted on <?php echo date('Y-m-d', strtotime($question['question_time'])); ?></span>
             </div>
         <?php endforeach; ?>
-        <a href="questionSubmit.php" class="fixed bottom-5 right-5 bg-blue-500 text-white p-2 rounded-full text-lg">
-            <i class="fa fa-plus"></i>
+        <a href="questionSubmit.php" class="fixed bottom-10 bg-gray-500 right-10 text-white p-2 rounded-full text-lg">
+        <i class="fa fa-plus"></i>
         </a>
     </div>
 </body>
