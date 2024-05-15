@@ -1,3 +1,8 @@
+<?php
+ob_start(); // バッファリングを開始
+// ここから既存のコードを追加
+?>
+
 <div class="relative text-white">
     <button id="account-btn" class="bg-gray-800 text-white p-2 rounded-full">Account</button>
     <!-- <div id="account-menu" class="hidden absolute right-0 w-48 bg-gray-900 border border-gray-400 rounded-lg"> -->

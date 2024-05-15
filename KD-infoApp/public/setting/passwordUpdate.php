@@ -14,13 +14,23 @@
 
     <style>
         body {
-            background-color: #333;
+            background-color: #111;
         }
 
         .modal-content {
-            background-color: #222;
+            background-color: #111;
             color: #fff;
             border: 1px solid #444;
+            /* 中央寄せ */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            /* 任意の幅 */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
         .input-field input {
@@ -42,22 +52,12 @@
 
 <body>
     <?php
-        // セッションの開始とヘッダーのインポート
-        session_start();
-        include '..\Components\src\renderHeader.php';
-        renderHeader('question');
-
-        // テスト用セッション情報表示
-        if (isset($_SESSION['session_user_name'])) {
-            // ログインしているユーザー名を表示
-            echo "<h1>Welcome, " . htmlspecialchars($_SESSION['session_user_name']) . "!</h1>";
-        } else {
-            // ログイン情報がない場合のメッセージ
-            echo "<h1>Welcome to Question Home</h1>";
-            echo "<p>Please <a href='\PBI1-B-Humble\KD-infoApp\public\user\login.php'>login</a> to continue.</p>";
-        }
+    // セッションの開始とヘッダーのインポート
+    session_start();
+    include '..\Components\src\renderHeader.php';
+    renderHeader('question');
     ?>
-    <div class="modal-content p-8 rounded-lg w-96">
+    <div class="modal-content">
         <h2 class="text-lg font-bold text-center mb-4">パスワード変更</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="space-y-4">
             <?php
@@ -116,7 +116,7 @@
                                     $stmt->execute();
 
                                     // パスワードが更新されたらホームページにリダイレクト
-                                    header("Location: /PBi1-B-Humble/KD-infoApp/public/posting/index.php");
+                                    header("Location: /PBI1-B-Humble/KD-infoApp/public/posting/index.php");
                                     exit();
                                 }
                             } else {
