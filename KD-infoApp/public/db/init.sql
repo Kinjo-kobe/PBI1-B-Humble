@@ -58,6 +58,7 @@ create table replies(
     reply_text varchar(1000) not null,
     reply_best_answer boolean default false,
     reply_time timestamp default current_timestamp,
+    reply_good int default 0,
     -- 外部キー制約 user_id
     FOREIGN KEY (user_id) REFERENCES users (user_id)
     -- 参照先をupdate/deleteした際はエラーを返す
