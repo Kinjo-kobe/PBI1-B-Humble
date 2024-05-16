@@ -15,7 +15,7 @@ ob_start(); // バッファリングを開始
 </div>
 
 <!-- ログアウト用モーダル -->
-<div id="logout-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-50 flex justify-center items-center hidden">
+<div id="logout-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-900 flex justify-center items-center hidden"> <!-- 背景色を変更 -->
     <div class="bg-gray-333 p-16 rounded-lg text-white text-2xl text-center border border-#444"> <!-- 背景色を変更 -->
         <p class="text-3xl mb-6">ログアウトしてもよろしいでしょうか？</p>
         <div class="flex justify-center"> <!-- justify-center に変更 -->
