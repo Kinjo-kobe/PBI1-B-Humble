@@ -96,18 +96,3 @@ create table tagcontrol(
     -- 参照先をupdate/deleteした際はエラーを返す
     ON DELETE RESTRICT ON UPDATE RESTRICT
 );
-
-
-# ユーザーテーブルに仮のデータを追加
-insert into users(user_name, email_address, user_pass, profile_title, profile_text) values('kobe taro', 'kobetaro@st.kobedenshi.ac.jp', 'kobetaro0123', 'Hello', 'I am kobe taro');
-# 質問テーブルに仮のデータを追加
-insert into questions(question_title, question_text) values('How are you?', 'How are you doing?');
-# 投稿テーブルに仮のデータを追加
-insert into posts(post_title, post_text) values('I am fine', 'I am fine, thank you');
-# 返信テーブルに仮のデータを追加
-insert into replies(reply_text) values('I am fine too');
-# タグテーブルに仮のデータを追加
-insert into tag(tag_name) values('java');
-insert into tag(tag_name) values('python');
-insert into tag(tag_name) values('php');
-insert into tag(tag_name) values('c');
