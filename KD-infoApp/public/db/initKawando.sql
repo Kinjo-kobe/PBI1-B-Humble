@@ -11,8 +11,8 @@ use prosite;
 # テーブル「users」を作成
 create table users(
     user_id int auto_increment primary key ,
-    user_name varchar(255) ,
-    user_pass varchar(1000) ,
+    user_name varchar(255) not null,
+    user_pass varchar(1000) not null,
     email_address varchar(255) UNIQUE,
     profile_title varchar(100) ,
     profile_text varchar(1000)
@@ -20,7 +20,7 @@ create table users(
 # テーブル「questions」を作成
 create table questions(
     question_id int auto_increment primary key,
-    user_id int,
+    user_id int not null,
     question_title varchar(100) not null,
     question_text varchar(1000) not null,
     question_good int default 0,
@@ -36,7 +36,7 @@ create table questions(
 # テーブル「posts」を作成
 create table posts(
     post_id int auto_increment primary key,
-    user_id int,
+    user_id int not null,
     post_title varchar(100) not null,
     post_text varchar(1000) not null,
     post_good int(3) default null,
@@ -52,7 +52,7 @@ create table posts(
 # テーブル「replies」を作成
 create table replies(
     reply_id int auto_increment primary key,
-    user_id int,
+    user_id int not null,
     question_id int,
     post_id int,
     reply_text varchar(1000) not null,
@@ -82,7 +82,7 @@ create table tagcontrol(
     tagcontrol_id int auto_increment primary key,
     question_id int,
     post_id int,
-    tag_id int,
+    tag_id int NOT NULL,
     -- 外部キー制約 question_id
     FOREIGN KEY (question_id) REFERENCES questions (question_id)
     -- 参照先をupdate/deleteした際はエラーを返す
@@ -109,6 +109,8 @@ values ('densuke', '$2y$10$ocv0VLCWjSgoXjCHNeWuVueGpq8MI.ETE7Q9YQkmkHXfY7Lf8fXka
 # densukeのハッシュ化前パスワード→Denden1234
 # tsubo teaのハッシュ化前パスワード→teaOcha1234
 # PonkotsuCodingのハッシュ化前パスワード→Ponkotsu1234
+
+# 投稿テーブルの情報は金城DBに保存されています。川人DBのuser_idを金城DBのpostsに保存するようにする。
 
 # 質問テーブルへ仮データ追加
 insert into questions(user_id, question_title, question_text, question_good)
