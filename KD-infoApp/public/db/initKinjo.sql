@@ -1,6 +1,6 @@
 # クライアントから送信される文字コードをutf8に設定
 set names utf8;
-# もし「prosite」というデータベースが存在すれば削除
+# もし「projectdb」というデータベースが存在すれば削除
 drop database if exists projectdb;
 # もし「username'@'localhost」が存在すれば削除
 DROP USER IF EXISTS 'username'@'localhost';

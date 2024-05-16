@@ -1,1 +1,0 @@
-# kinjoDB demo data
