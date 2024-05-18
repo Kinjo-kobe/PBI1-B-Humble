@@ -45,8 +45,8 @@ $questions = $stmt->fetchAll();
 ?>
 
 <body>
-    <div class="container mx-auto p-4">
-        <h1 class="text-white text-xl">質問一覧</h1>
+    <div class="container mx-auto pt-5 pl-40 pr-40">
+        <h1 class="pb-3 text-white text-xl">質問一覧</h1>
         <?php foreach ($questions as $question): ?>
             <button onclick="window.location.href='questionDetail.php?id=<?php echo $question['question_id']; ?>'" class="w-full text-left text-white p-4 mb-3 rounded bg-gray-800">
                 <h2 class="font-bold"><?php echo htmlspecialchars($question['question_title']); ?></h2>
@@ -56,7 +56,7 @@ $questions = $stmt->fetchAll();
                 <span> | コメント: <?php echo $question['comment_count'] ?: 0; ?></span>
             </button>
         <?php endforeach; ?>
-        <a href="questionSubmit.php" class="fixed bottom-10 right-10 bg-gray-500 text-white p-2 rounded-full text-lg">
+        <a href="questionSubmit.php" class="fixed bottom-10 right-10 bg-gray-500 text-white pr-10 pl-10 pb-2 pt-2 rounded text-lg">
             <i class="fa fa-plus"></i>
         </a>
     </div>

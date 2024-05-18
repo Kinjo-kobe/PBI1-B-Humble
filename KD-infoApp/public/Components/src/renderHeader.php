@@ -16,21 +16,21 @@ function renderHeader() {
     </style>
 </head>
 <body>
-    <div class="header flex justify-between items-center p-4">
+    <div class="header flex justify-between items-center p-4 w-full">
         <!-- アイコン表示 -->
-        <img src="\PBI1-B-Humble\KD-infoApp\public\Components\static\AppIcon\KD-info2.png" alt="App Icon" class="h-8">
-        <!-- アプリ名表示 -->
-        <div class="text-white text-lg">KD-info</div>
+        <div class="flex items-center">
+            <img src="\PBI1-B-Humble\KD-infoApp\public\Components\static\AppIcon\KD-info2.png" alt="App Icon" class="h-8">
+            <a href="../posting/index.php" class="text-white pl-3">KD-info</a>
+        </div>
+
         <!-- ヘッダーのナビゲーションメニュー -->
         <div class="flex items-center">
             <!-- 投稿に飛ぶボタン -->
-            <a href="../posting/index.php" class="text-white pr-4">Posts</a>
+            <a href="../posting/index.php" class="text-white pr-8">Posts</a>
+
             <!-- 質問に飛ぶボタン -->
-            <a href="../question/index.php" class="text-white pr-4">Questions</a>
-            <!-- 検索ページに飛ぶボタン -->
-            <a href="../search/index.php" class="text-white pr-4">Search</a>
-            <!-- 通知ページに飛ぶボタン -->
-            <a href="../notification/index.php" class="text-white pr-4">Notifications</a>
+            <a href="../question/index.php" class="text-white pr-40">Questions</a>
+
             <!-- アカウントナビゲーションのインクルード -->
             <?php include 'accountNavigation.php'; ?>
         </div>
