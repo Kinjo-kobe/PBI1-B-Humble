@@ -46,19 +46,43 @@ $questions = $stmt->fetchAll();
 
 <body>
     <div class="container mx-auto pt-5 pl-40 pr-40">
-        <h1 class="pb-3 text-white text-xl">質問一覧</h1>
-        <?php foreach ($questions as $question): ?>
-            <button onclick="window.location.href='questionDetail.php?id=<?php echo $question['question_id']; ?>'" class="w-full text-left text-white p-4 mb-3 rounded bg-gray-800">
-                <h2 class="font-bold"><?php echo htmlspecialchars($question['question_title']); ?></h2>
-                <p><?php echo htmlspecialchars($question['question_text']); ?></p>
-                <span class="text-sm">質問日:  <?php echo date('Y-m-d', strtotime($question['question_time'])); ?></span>
-                <span> | いいね: <?php echo $question['question_good'] ?: 0; ?></span>
-                <span> | コメント: <?php echo $question['comment_count'] ?: 0; ?></span>
-            </button>
-        <?php endforeach; ?>
+        <div id="searchBar" class="flex justify-center pb-1">
+            <input type="text" id="searchInput" placeholder="質問を検索..." oninput="filterQuestions()" class="form-input block w-full px-4 py-2 text-black bg-gray-800 text-gray-300 border-gray-700 focus:border-gray-500 rounded">
+        </div>
+
+        <h1 class="pb-3 text-white text-xl pt-6">質問一覧</h1>
+        <div id="questionsContainer">
+            <?php foreach ($questions as $question): ?>
+                <div class="question-item w-full text-left text-white p-4 mb-3 rounded bg-gray-800" data-title="<?php echo strtolower(htmlspecialchars($question['question_title'])); ?>" data-text="<?php echo strtolower(htmlspecialchars($question['question_text'])); ?>">
+                    <h2 class="font-bold"><?php echo htmlspecialchars($question['question_title']); ?></h2>
+                    <p><?php echo htmlspecialchars($question['question_text']); ?></p>
+                    <span class="text-sm">質問日: <?php echo date('Y-m-d', strtotime($question['question_time'])); ?></span>
+                    <span> | いいね: <?php echo $question['question_good'] ?: 0; ?></span>
+                    <span> | 回答: <?php echo $question['comment_count'] ?: 0; ?>件</span>
+                </div>
+            <?php endforeach; ?>
+        </div>
         <a href="questionSubmit.php" class="fixed bottom-10 right-10 bg-gray-500 text-white pr-10 pl-10 pb-2 pt-2 rounded text-lg">
             <i class="fa fa-plus"></i>
         </a>
     </div>
+
+    <script>
+        function filterQuestions() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let questionItems = document.querySelectorAll('.question-item');
+
+            questionItems.forEach(item => {
+                let title = item.getAttribute('data-title');
+                let text = item.getAttribute('data-text');
+                if (title.includes(input) || text.includes(input)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
 </body>
 </html>

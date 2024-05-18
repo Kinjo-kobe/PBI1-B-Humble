@@ -191,15 +191,6 @@ renderHeader('question');
 
     <div class="container mx-auto pl-40 pr-40">
         <h1 class="text-white text-xl">投稿一覧</h1>
-        <!-- <?php foreach ($questions as $question) : ?> -->
-        <button onclick="window.location.href='questionDetail.php?id=<?php echo $question['question_id']; ?>'" class="w-full text-left text-white p-4 mb-3 rounded bg-gray-800">
-            <h2 class="font-bold"><?php echo htmlspecialchars($question['question_title']); ?></h2>
-            <p><?php echo htmlspecialchars($question['question_text']); ?></p>
-            <span class="text-sm">投稿日: <?php echo date('Y-m-d', strtotime($question['question_time'])); ?></span>
-            <span> | いいね: <?php echo $question['question_good'] ?: 0; ?></span>
-            <span> | コメント: <?php echo $question['comment_count'] ?: 0; ?></span>
-        </button>
-        <!-- <?php endforeach; ?> -->
         <!-- 投稿新規作成画面に遷移するボタン -->
         <a href="post_form.php" class="fixed bottom-10 right-10 bg-gray-500 text-white pr-10 pl-10 pb-2 pt-2 rounded text-lg">
             <i class="fa fa-plus"></i>
@@ -261,14 +252,15 @@ renderHeader('question');
         </div>
     </div>
 
-    <!-- 削除用スクリプト -->
     <script>
+        // 投稿削除用スクリプト
         function deleteProject(id) {
             if (confirm("本当に削除しますか？")) {
                 window.location.href = "delete.php?id=" + id;
             }
         }
 
+        // 投稿検索用スクリプト
         function filterPosts(searchTerm) {
             var posts = document.querySelectorAll('.post');
             for (var i = 0; i < posts.length; i++) {
