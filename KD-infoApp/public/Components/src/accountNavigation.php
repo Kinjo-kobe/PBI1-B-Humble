@@ -1,6 +1,12 @@
 <div class="relative text-white">
     <!-- アカウントボタン -->
-    <button id="account-btn" class="bg-gray-800 text-white p-1 rounded-full">Account</button>
+    <!-- <button id="account-btn" class="fas fa-user"> -->
+    <!-- <button id="account-btn" class="fas fa-user-graduate"> -->
+    <!-- <button id="account-btn" class="fas fa-user-tie"> -->
+    <button id="account-btn"
+        class="fas fa-user-circle pl-2 pr-2"
+        style="color: white; font-size: 24px;">
+    </button>
     <!-- アカウントメニュー -->
     <div id="account-menu" class="hidden absolute right-0 w-48 border border-gray-400 rounded-lg text-left" style="background-color: #111;">
         <!-- ユーザー名表示。セッションにユーザー名があれば表示、なければGuest表示 -->

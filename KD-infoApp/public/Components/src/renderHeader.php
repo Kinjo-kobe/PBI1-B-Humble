@@ -26,10 +26,16 @@ function renderHeader() {
         <!-- ヘッダーのナビゲーションメニュー -->
         <div class="flex items-center">
             <!-- 投稿に飛ぶボタン -->
-            <a href="../posting/index.php" class="text-white pr-8">Posts</a>
+            <a href="../posting/index.php"
+                class="bg-black border border-white rounded text-white pl-3 pr-3 pt-1 pb-1 hover hover:bg-gray-900">
+                投稿
+            </a>
 
             <!-- 質問に飛ぶボタン -->
-            <a href="../question/index.php" class="text-white pr-40">Questions</a>
+            <a href="../question/index.php"
+                class="bg-black border border-white rounded text-white pl-3 pr-3 pt-1 pb-1 hover hover:bg-orange-500">
+                質問
+            </a>
 
             <!-- アカウントナビゲーションのインクルード -->
             <?php include 'accountNavigation.php'; ?>
