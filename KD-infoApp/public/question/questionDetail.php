@@ -26,7 +26,7 @@ if (!$question) {
     exit;
 }
 
-// Like機能の処理
+// 質問に対するLike機能の処理
 if (isset($_POST['like'])) {
     // いいね数の更新処理
     $stmt = $conn->prepare("UPDATE questions SET question_good = question_good + 1 WHERE question_id = :question_id");
@@ -40,6 +40,20 @@ $reply_stmt = $conn->prepare("SELECT r.*, u.user_name FROM replies r JOIN users 
 $reply_stmt->bindParam(':question_id', $question_id);
 $reply_stmt->execute();
 $replies = $reply_stmt->fetchAll();
+
+// 回答に対するLike機能の処理
+if (isset($_POST['like_reply'])) {
+    $reply_id = $_POST['reply_id'];
+
+    // いいね数を更新
+    $stmt = $conn->prepare("UPDATE replies SET reply_good = reply_good + 1 WHERE reply_id = :reply_id");
+    $stmt->bindParam(':reply_id', $reply_id);
+    $stmt->execute();
+
+    // ページを再読み込みして結果を反映
+    header("Location: {$_SERVER['PHP_SELF']}?id={$question_id}");
+}
+
 
 // 回答送信の処理
 if (isset($_POST['submit_reply'])) {
@@ -71,6 +85,7 @@ if (isset($_POST['submit_reply'])) {
 
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,60 +97,99 @@ if (isset($_POST['submit_reply'])) {
     <!-- タブのアイコン設定(相対パスは非表示になるバグがあるので絶対パスで指定中) -->
     <link rel="icon" type="image/png" href="\PBI1-B-Humble\KD-infoApp\public\Components\static\AppIcon\KD-info2.png">
     <style>
-        body { background-color: #111; }
+        body {
+            background-color: #111;
+        }
     </style>
 </head>
 
 <?php
-    // ヘッダーのインポート
-    include '../Components/src/renderHeader.php';
-    renderHeader('question');
+// ヘッダーのインポート
+include '../Components/src/renderHeader.php';
+renderHeader('question');
 ?>
 
 <body>
-    <div class="container mx-auto p-4">
-        <h1 class="text-white text-2xl">質問タイトル: <?php echo htmlspecialchars($question['question_title']); ?></h1>
-        <span class="text-white">質問者: <a href="userProfile.php?user_id=<?php echo $question['user_id']; ?>" class="text-blue-500 hover:text-blue-700"><?php echo htmlspecialchars($question['user_name']); ?></a> 投稿日: <?php echo date('Y-m-d', strtotime($question['question_time'])); ?></span>
-        <p class="text-white">質問詳細内容: <?php echo htmlspecialchars($question['question_text']); ?></p>
-        <div>
-            <form method="post">
-                <button name="like" class="bg-red-500 text-white p-2 rounded">いいね</button>
-                <span class="text-white"><?php echo $question['question_good']; ?> いいね</span>
-            </form>
-        </div>
+    <h2 class="text-white text-xl max-w-5xl mx-auto pt-5 px-4">質問詳細:</h2>
+</body>
 
-        <!-- 回答モーダルウィンドウ起動ボタン -->
-        <button onclick="document.getElementById('replyModal').style.display='block'" class="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded">回答する</button>
-        <!-- 回答モーダルウィンドウ -->
-        <div id="replyModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-                <div class="mt-3 text-center">
-                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                        <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">質問に回答する</h3>
-                    <form method="post" class="mt-2">
-                        <textarea name="reply_text" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" placeholder="回答を入力してください"></textarea>
-                        <button type="submit" name="submit_reply" class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">送信</button>
-                    </form>
+<body class="bg-black text-white">
+    <div class="max-w-5xl mx-auto pt-5 px-4">
+        <!-- 質問タイトルとメタデータ -->
+        <div class="bg-gray-800 p-5 rounded-md shadow">
+            <h1 class="text-2xl font-bold text-white mb-2"><?php echo htmlspecialchars($question['question_title']); ?></h1>
+            <!-- 質問者表示とそのユーザーのプロフィールに遷移するボタン表示 -->
+            <div>
+                <div class="text-sm text-gray-500">質問者:
+                    <a href="userProfile.php?user_id=<?php echo $question['user_id']; ?>" class="text-blue-500 hover:text-blue-700"><?php echo htmlspecialchars($question['user_name']); ?></a>
                 </div>
+            </div>
+            <div class="flex justify-between items-center text-sm text-gray-500">
+                <!-- 質問日表示 -->
+                <span>
+                    質問日: <?php echo date('Y-m-d', strtotime($question['question_time'])); ?>
+                </span>
+                <div class="flex items-center">
+                    <!-- イイネボタンとイイネ数表示 -->
+                    <form method="post" class="">
+                        <span class="mr-2">
+                            <button name="like" class="fas fa-heart"></button>
+                            <?php echo $question['question_good']; ?>
+                        </span>
+                    </form>
+                    <!-- コメント数表示 -->
+                    <span><i class="fas fa-comment"></i> <?php echo count($replies); ?></span>
+                </div>
+            </div>
+            <!-- 質問詳細内容表示コンテナ -->
+            <div class="bg-gray mt-4 p-5 rounded-md shadow">
+                <p class="text-white">質問内容</p>
+                <p class="text-white"><?php echo nl2br(htmlspecialchars($question['question_text'])); ?></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+<body>
+    <!-- 回答モーダルウィンドウ起動ボタン -->
+    <div class="flex justify-center">
+        <button onclick="document.getElementById('replyModal').style.display='block'" class="bg-black border border-white hover:bg-blue-900 hover:border-white text-white py-2 px-4 rounded mt-4 transition-colors duration-200">
+            回答する
+        </button>
+    </div>
+
+    <!-- 回答モーダルウィンドウ -->
+    <div id="replyModal" class="hidden fixed inset-0 flex items-center justify-center pt-20 bg-gray-600 bg-opacity-50">
+        <div class="relative bg-black border-2 border-white rounded-md overflow-hidden shadow-lg">
+            <div class="text-center p-5">
+                <h3 class="text-lg leading-6 font-medium text-white">質問に回答する</h3>
+                <form method="post" class="mt-2">
+                    <textarea name="reply_text" class="w-full p-2 text-white bg-black border border-white rounded-md h-60" placeholder="回答を入力してください"></textarea>
+                    <button type="submit" name="submit_reply" class="mt-3 bg-black border border-white hover:bg-blue-900 hover:border-white text-white font-bold py-2 px-4 rounded transition-colors duration-200">送信</button>
+                </form>
             </div>
         </div>
     </div>
 
+    <h2 class="text-white text-xl max-w-5xl mx-auto pt-5 px-4">回答:</h2>
+
     <!-- 回答表示 -->
-    <div class="mt-4">
-        <h2 class="text-white text-xl mb-2">回答:</h2>
-        <?php if ($replies): ?>
-            <?php foreach ($replies as $reply): ?>
-                <div class="bg-gray-800 text-white p-4 rounded mb-2">
+    <div class="max-w-5xl mx-auto pt-5 px-4">
+        <?php if ($replies) : ?>
+            <?php foreach ($replies as $reply) : ?>
+                <div class="bg-gray-800 text-white p-4 rounded mb-3 shadow">
                     <p><strong><?php echo htmlspecialchars($reply['user_name']); ?></strong> (<?php echo date('Y-m-d H:i', strtotime($reply['reply_time'])); ?>)</p>
                     <p><?php echo htmlspecialchars($reply['reply_text']); ?></p>
+                    <!-- 回答に対するいいねボタンといいね数表示 -->
+                    <form action="" method="post">
+                        <input type="hidden" name="reply_id" value="<?php echo $reply['reply_id']; ?>">
+                        <!-- 回答に対するlike表示 -->
+                        <button type="submit" name="like_reply" class="fas fa-heart"></button>
+                        <span><?php echo $reply['reply_good'] ?: 0; ?></span>
+                    </form>
                 </div>
             <?php endforeach; ?>
-        <?php else: ?>
+        <?php else : ?>
             <p class="text-white">まだ回答がありません。</p>
         <?php endif; ?>
     </div>
